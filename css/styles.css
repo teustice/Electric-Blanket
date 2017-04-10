@@ -1,0 +1,18 @@
+.container {
+  text-align: center;
+}
+
+.grid-row .grid-space{
+  display: inline-block;
+  border: 1px solid black;
+  height: 100px;
+  width: 100px;
+}
+
+.grid-row {
+  height: 100px;
+}
+
+.active {
+  background-color: black;
+}
