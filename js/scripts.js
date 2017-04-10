@@ -4,20 +4,39 @@ function System(){
   this.coords = [0,0];
   this.gridSize = 3;
   this.player = null;
+  this.note = "C4";
 }
 
-System.prototype.initializeSounds = function(timeSig, tempo, notes) {
+System.prototype.staticNotes = function(){
+  this.grid[0][0] = "C4";
+  this.grid[0][1] = "G4";
+  this.grid[0][2] = "D4";
+  this.grid[1][0] = "A4";
+  this.grid[1][1] = "E3";
+  this.grid[1][2] = "E6";
+  this.grid[2][0] = "B3";
+  this.grid[2][1] = "B2";
+  this.grid[2][2] = "A6";
+}
+System.prototype.updateNote = function(){
+  this.note = this.grid[this.coords[0]][this.coords[1]];
+}
+//timeSig is a 2 elem array containing top and bottom values
+System.prototype.initializeSounds = function(timeSig, tempo, rhythm) {
+
   var conductor = new BandJS();
-  conductor.setTimeSignature(4,4);
-  conductor.setTempo(120);
+  conductor.setTimeSignature(timeSig[0],timeSig[1]);
+  conductor.setTempo(tempo);
 
   var piano = conductor.createInstrument();
-  piano.note('quarter','E4, C4, G4', true);
+  piano.note(rhythm, this.note);
+  // piano.note('quarter','E4, C4, G4');
 
   this.player = conductor.finish();
 }
 
 System.prototype.startSound = function(){
+  console.log(this.player);
   this.player.play();
   this.player.loop(true);
 }
@@ -101,7 +120,13 @@ var updateDomGrid = function(coords){
 $(document).ready(function(){
   //new is apparently a bad way of initializing objects
   var newSystem = new System();
-  newSystem.initializeSounds();
+//  timeSig, tempo, note
+  var timeSig = [4,4];
+  var tempo = 140;
+  var note = "C4";
+  var rhythm = "quarter";
+  newSystem.initializeSounds(timeSig, tempo, rhythm);
+
 
   //Begin sequence
   $("#play").click(function(){
@@ -113,6 +138,7 @@ $(document).ready(function(){
   });
 
   newSystem.generateArray();
+  newSystem.staticNotes();
   generateDomGrid();
 
   $(document).keydown(function(event){
@@ -127,8 +153,13 @@ $(document).ready(function(){
     }else if(keyCode === 40){
       newSystem.updateCoords(0,1);
     }
-    newSystem.updateGrid();
+    // newSystem.updateGrid();
     updateDomGrid(newSystem.coords);
+    newSystem.stopSound();
+    newSystem.updateNote();
+    newSystem.initializeSounds(timeSig, tempo, rhythm);
+    newSystem.startSound();
+
   });
 
 });
