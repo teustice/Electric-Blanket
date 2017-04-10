@@ -1,0 +1,18 @@
+.container-fluid {
+  text-align: center;
+}
+
+.a-row {
+  height: 2vw;
+}
+
+.a-row .a-col {
+  width: 2vw;
+  height: 2vw;
+  border: 1px solid black;
+  display: inline-block;
+}
+
+.active {
+  background-color: black;
+}
