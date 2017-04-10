@@ -1,11 +1,17 @@
-div.grid-row {
-  /*display: inline-block;*/
-  height: 40px;
-  width: 220px;
+.container {
+  text-align: center;
 }
-div.grid-space {
+
+.grid-row .grid-space{
   display: inline-block;
   border: 1px solid black;
-  width: 40px;
-  height: 40px;
+  height: 100px;
+  width: 100px;
+}
+.grid-row {
+  height: 100px;
+}
+
+.active {
+  background-color: black;
 }

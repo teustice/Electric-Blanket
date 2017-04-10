@@ -22,12 +22,19 @@ System.prototype.generateArray = function(){
 }
 
 //front-end
-//this function is for the future. this is where we will generate any DOM elements
-var generateDomGrid = function(){}
+var generateDomGrid = function(){
+  for (var i = 0; i < 3; i++){
+    $(".container").append(`<div class="grid-row" id="row-${i}"></div>`);
+    for (var n = 0; n < 3; n++) {
+        $(`#row-${i}`).append(`<div class="grid-space" id="${i}${n}"></div>`);
+    }
+  }
+}
 
 $(document).ready(function(){
   //new is apparently a bad way of initializing objects
   var newSystem = new System();
 
   newSystem.generateArray();
+  generateDomGrid();
 });
