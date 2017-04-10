@@ -1,2 +1,2 @@
-# daryl-stryyp
+# Electric-Blanket
 Team project
