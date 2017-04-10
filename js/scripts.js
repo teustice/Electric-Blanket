@@ -5,12 +5,10 @@ var System(){
   //need to initialize data mambers for
   //audio context and oscillator node
 
-
-
 }
 
-System.prototype.playSound(){}
-System.prototype.generateArray(){}
+System.prototype.playSound = function() {}
+System.prototype.generateArray = function() {}
 
 //front-end
 //this function is for the future. this is where we will generate any DOM elements
