@@ -3,25 +3,27 @@ function System(){
   this.grid = [];
   this.coords = [0,0];
   this.gridSize = 3;
-  //need to initialize data mambers for
-  //audio context and oscillator node
+  this.player = null;
 }
 
-System.prototype.playSound = function() {
-  //initialize band.js
+System.prototype.initializeSounds = function(timeSig, tempo, notes) {
   var conductor = new BandJS();
   conductor.setTimeSignature(4,4);
   conductor.setTempo(120);
-  var piano = conductor.createInstrument();
 
+  var piano = conductor.createInstrument();
   piano.note('quarter','E4, C4, G4', true);
 
-  //Totals up the duration of the song and returns the Player Class
-  var player = conductor.finish();
-  player.play();
-  player.loop(true);
-  
-  return player;
+  this.player = conductor.finish();
+}
+
+System.prototype.startSound = function(){
+  this.player.play();
+  this.player.loop(true);
+}
+
+System.prototype.stopSound = function(){
+  this.player.stop(true);
 }
 
 System.prototype.generateArray = function(){
@@ -99,15 +101,15 @@ var updateDomGrid = function(coords){
 $(document).ready(function(){
   //new is apparently a bad way of initializing objects
   var newSystem = new System();
+  newSystem.initializeSounds();
 
-  var playerReturn = null;
   //Begin sequence
   $("#play").click(function(){
-    playerReturn = newSystem.playSound();
+    newSystem.startSound();
   });
   //Stop sequence
   $("#stop").click(function(){
-    playerReturn.stop(true); //argument is for fading out
+    newSystem.stopSound();
   });
 
   newSystem.generateArray();
