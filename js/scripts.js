@@ -5,13 +5,44 @@ function System(){
   this.gridSize = 3;
   //need to initialize data mambers for
   //audio context and oscillator node
-
-
-
 }
 
-System.prototype.playSound = function(){
+System.prototype.playSound = function() {
+  //initialize band.js
+  var conductor = new BandJS();
+  conductor.setTimeSignature(4,4);
+  conductor.setTempo(120);
+  var piano = conductor.createInstrument();
 
+  piano.note('quarter','E4, C4, G4', true);
+
+  //Totals up the duration of the song and returns the Player Class
+  var player = conductor.finish();
+  player.play();
+  player.loop(true);
+  
+  return player;
+}
+
+System.prototype.generateArray = function(){
+  for (var i = 0; i < this.gridSize; i++){
+    this.grid.push([]);
+    for (var n = 0; n < this.gridSize; n++){
+      this.grid[i].push(`-`);
+    }
+  }
+}
+
+System.prototype.updateCoords = function(x,y){
+  if(x === -1 && this.coords[0] > 0){
+    this.coords[0] += x;
+  } else if(y === -1 && this.coords[1] > 0) {
+    this.coords[1] += y;
+  } else if(x === 1 && this.coords[0] < (this.gridSize-1)) {
+    this.coords[0] += x;
+  } else if(y === 1 && this.coords[1] < (this.gridSize-1)) {
+    this.coords[1] += y;
+  }
 }
 
 System.prototype.generateArray = function(){
@@ -41,10 +72,8 @@ System.prototype.updateGrid = function(){
       this.grid[i][n] = "-";
     }
   }
-
   this.grid[this.coords[0]][this.coords[1]] = "X"
 }
-
 
 //front-end
 var generateDomGrid = function(){
@@ -71,6 +100,16 @@ $(document).ready(function(){
   //new is apparently a bad way of initializing objects
   var newSystem = new System();
 
+  var playerReturn = null;
+  //Begin sequence
+  $("#play").click(function(){
+    playerReturn = newSystem.playSound();
+  });
+  //Stop sequence
+  $("#stop").click(function(){
+    playerReturn.stop(true); //argument is for fading out
+  });
+
   newSystem.generateArray();
   generateDomGrid();
 
@@ -85,8 +124,6 @@ $(document).ready(function(){
       newSystem.updateCoords(0,-1);
     }else if(keyCode === 40){
       newSystem.updateCoords(0,1);
-    }else{
-      console.log(keyCode);
     }
     newSystem.updateGrid();
     updateDomGrid(newSystem.coords);
