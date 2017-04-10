@@ -21,7 +21,6 @@ System.prototype.generateArray = function(){
       this.grid[i].push(`-`);
     }
   }
-  console.log(this.grid);
 }
 
 System.prototype.updateCoords = function(x,y){
@@ -37,7 +36,6 @@ System.prototype.updateCoords = function(x,y){
 }
 
 System.prototype.updateGrid = function(){
-  console.log(`x: ${this.coords[0]}y: ${this.coords[1]}`);
   for (var i = 0; i < this.gridSize; i++){
     for (var n = 0; n < this.gridSize; n++){
       this.grid[i][n] = "-";
@@ -45,10 +43,6 @@ System.prototype.updateGrid = function(){
   }
 
   this.grid[this.coords[0]][this.coords[1]] = "X"
-
-  console.log(`[${this.grid[0][0]},${this.grid[1][0]},${this.grid[2][0]}]`);
-  console.log(`[${this.grid[0][1]},${this.grid[1][1]},${this.grid[2][1]}]`);
-  console.log(`[${this.grid[0][2]},${this.grid[1][2]},${this.grid[2][2]}]`);
 }
 
 
@@ -57,13 +51,20 @@ var generateDomGrid = function(){
   for (var i = 0; i < 3; i++){
     $(".container").append(`<div class="grid-row" id="row-${i}"></div>`);
     for (var n = 0; n < 3; n++) {
-        $(`#row-${i}`).append(`<div class="grid-space" id="${i}${n}"></div>`);
+        $(`#row-${i}`).append(`<div class="grid-space" id="${n}${i}"></div>`);
     }
   }
 }
 
-var updateDomGrid = function(){
-  
+var updateDomGrid = function(coords){
+  for (var i = 0; i < 3; i++){
+    for (var n = 0; n < 3; n++) {
+      if($(`#${i}${n}`).hasClass("active")){
+        $(`#${i}${n}`).removeClass("active")
+      }
+    }
+  }
+  $(`#${coords[0]}${coords[1]}`).addClass("active");
 }
 
 $(document).ready(function(){
@@ -88,7 +89,7 @@ $(document).ready(function(){
       console.log(keyCode);
     }
     newSystem.updateGrid();
-    updateDomGrid(newSystem.grid, newSystem.coords);
+    updateDomGrid(newSystem.coords);
   });
 
 });
