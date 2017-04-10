@@ -1,0 +1,11 @@
+div.grid-row {
+  /*display: inline-block;*/
+  height: 40px;
+  width: 220px;
+}
+div.grid-space {
+  display: inline-block;
+  border: 1px solid black;
+  width: 40px;
+  height: 40px;
+}
