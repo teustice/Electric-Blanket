@@ -1,36 +1,6 @@
 //back-end
 function Data() {
-  this.json = {
-    timeSignature: [4, 4],
-    tempo: 100,
-    instruments: {
-      rightHand: {
-          name: 'square',
-          pack: 'oscillators'
-      },
-      leftHand: {
-          name: 'triangle',
-          pack: 'oscillators'
-      }
-    },
-    notes: {
-      // Shorthand notation
-      rightHand: [
-          'quarter|E5, F#4|tie',
-          'quarter|rest',
-          'quarter|E5, F#4',
-          'quarter|rest'
-      ],
-      // More verbose notation
-      leftHand: [
-          {
-              type: 'note',
-              pitch: 'C4',
-              rhythm: 'half'
-          }
-      ]
-    }
-  };
+
 }
 
 function System(){
@@ -50,19 +20,162 @@ System.prototype.reinitializeConductor = function(){
 }
 
 System.prototype.staticJSON = function(){
-  this.grid[0][0] = new Data();
-  this.grid[0][1] = new Data();
-  this.grid[0][2] = new Data();
-  this.grid[1][0] = new Data();
-  this.grid[1][1] = new Data();
-  this.grid[1][2] = new Data();
-  this.grid[2][0] = new Data();
-  this.grid[2][1] = new Data();
-  this.grid[2][2] = new Data();
+  this.grid[0][0] = {
+    timeSignature: [4, 4],
+    tempo: 100,
+    instruments: {
+      rightHand: {
+          name: 'square',
+          pack: 'oscillators'
+      },
+    },
+    notes: {
+      // Shorthand notation
+      rightHand: [
+          'quarter|C5|tie'
+      ],
+    }
+  };
+  this.grid[0][1] = {
+    timeSignature: [4, 4],
+    tempo: 100,
+    instruments: {
+      rightHand: {
+          name: 'square',
+          pack: 'oscillators'
+      },
+    },
+    notes: {
+      // Shorthand notation
+      rightHand: [
+          'quarter|D5|tie'
+      ],
+    }
+  };
+
+  this.grid[0][2] = {
+    timeSignature: [4, 4],
+    tempo: 100,
+    instruments: {
+      rightHand: {
+          name: 'square',
+          pack: 'oscillators'
+      },
+    },
+    notes: {
+      // Shorthand notation
+      rightHand: [
+          'quarter|E5|tie'
+      ],
+    }
+  };
+
+  this.grid[1][0] = {
+    timeSignature: [4, 4],
+    tempo: 100,
+    instruments: {
+      rightHand: {
+          name: 'square',
+          pack: 'oscillators'
+      },
+    },
+    notes: {
+      // Shorthand notation
+      rightHand: [
+          'quarter|F5|tie'
+      ],
+    }
+  };
+
+  this.grid[1][1] = {
+    timeSignature: [4, 4],
+    tempo: 100,
+    instruments: {
+      rightHand: {
+          name: 'square',
+          pack: 'oscillators'
+      },
+    },
+    notes: {
+      // Shorthand notation
+      rightHand: [
+          'quarter|G5|tie'
+      ],
+    }
+  };
+
+  this.grid[1][2] = {
+    timeSignature: [4, 4],
+    tempo: 100,
+    instruments: {
+      rightHand: {
+          name: 'square',
+          pack: 'oscillators'
+      },
+    },
+    notes: {
+      // Shorthand notation
+      rightHand: [
+          'quarter|A5|tie'
+      ],
+    }
+  };
+
+  this.grid[2][0] = {
+    timeSignature: [4, 4],
+    tempo: 100,
+    instruments: {
+      rightHand: {
+          name: 'square',
+          pack: 'oscillators'
+      },
+    },
+    notes: {
+      // Shorthand notation
+      rightHand: [
+          'quarter|B5|tie'
+      ],
+    }
+  };
+
+  this.grid[2][1] = {
+    timeSignature: [4, 4],
+    tempo: 100,
+    instruments: {
+      rightHand: {
+          name: 'square',
+          pack: 'oscillators'
+      },
+    },
+    notes: {
+      // Shorthand notation
+      rightHand: [
+          'quarter|C5|tie'
+      ],
+    }
+  };
+
+  this.grid[2][2] = {
+    timeSignature: [4, 4],
+    tempo: 100,
+    instruments: {
+      rightHand: {
+          name: 'square',
+          pack: 'oscillators'
+      },
+    },
+    notes: {
+      // Shorthand notation
+      rightHand: [
+          'quarter|A5|tie'
+      ],
+    }
+  };
+
 }
 
 System.prototype.initializeSounds = function() {
-  this.player = this.conductor.load(this.grid[this.coords[0]][this.coords[1]].json);
+  this.player = this.conductor.load(this.grid[this.coords[0]][this.coords[1]]);
 }
 
 System.prototype.startSound = function(){
