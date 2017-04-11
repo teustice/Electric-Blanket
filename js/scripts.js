@@ -97,7 +97,7 @@ var generateDomGrid = function(){
   for (var i = 0; i < 3; i++){
     $(".container").append(`<div class="grid-row" id="row-${i}"></div>`);
     for (var n = 0; n < 3; n++) {
-        $(`#row-${i}`).append(`<div class="grid-space" id="${n}${i}"></div>`);
+      $(`#row-${i}`).append(`<div class="grid-space" id="${n}${i}"></div>`);
     }
   }
 }
