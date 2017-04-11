@@ -16,6 +16,7 @@ function Data() {
         'sixteenth|E4|tie',
         'sixteenth|G4|tie'
       ],
+      rightHand: [],
     }
   };
 }
@@ -47,176 +48,15 @@ System.prototype.staticJSON = function() {
   this.grid[2][1] = new Data();
   this.grid[2][2] = new Data();
 
-  this.grid[0][0].json.notes.rightHand = ['sixteenth|B3|tie','sixteenth|E4|tie', 'sixteenth|G4|tie'];
-
-  this.grid[0][1].json.notes.rightHand = ['sixteenth|B3|tie', 'sixteenth|D4|tie', 'sixteenth|G4|tie'];
-
-  this.grid[0][2].json.notes.rightHand = ['sixteenth|B3|tie','sixteenth|E4|tie', 'sixteenth|G4|tie'];
-
-  this.grid[1][0].json.notes.rightHand = ['sixteenth|B3|tie','sixteenth|E4|tie', 'sixteenth|G4|tie'];
-
-  this.grid[1][1].json.notes.rightHand = ['sixteenth|B3|tie','sixteenth|E4|tie', 'sixteenth|G4|tie'];
-
-  this.grid[1][2].json.notes.rightHand = ['sixteenth|B3|tie','sixteenth|E4|tie', 'sixteenth|G4|tie'];
-
-  this.grid[2][0].json.notes.rightHand = ['sixteenth|B3|tie','sixteenth|E4|tie', 'sixteenth|G4|tie'];
-
-  this.grid[2][1].json.notes.rightHand = ['sixteenth|B3|tie','sixteenth|E4|tie', 'sixteenth|G4|tie'];
-
-  this.grid[2][2].json.notes.rightHand = ['sixteenth|B3|tie','sixteenth|E4|tie', 'sixteenth|G4|tie'];
-
-  // this.grid[0][1] = {
-  //   timeSignature: [4, 4],
-  //   tempo: 130,
-  //   instruments: {
-  //     rightHand: {
-  //       name: 'square',
-  //       pack: 'oscillators'
-  //     },
-  //   },
-  //   notes: {
-  //     // Shorthand notation
-  //     rightHand: [
-  //       'sixteenth|B3|tie',
-  //       'sixteenth|E4|tie',
-  //       'sixteenth|G4|tie'
-  //     ],
-  //   }
-  // };
-  //
-  // this.grid[0][2] = {
-  //   timeSignature: [4, 4],
-  //   tempo: 130,
-  //   instruments: {
-  //     rightHand: {
-  //       name: 'square',
-  //       pack: 'oscillators'
-  //     },
-  //   },
-  //   notes: {
-  //     // Shorthand notation
-  //     rightHand: [
-  //       'sixteenth|B3|tie',
-  //       'sixteenth|E4|tie',
-  //       'sixteenth|G4|tie'
-  //     ],
-  //   }
-  // };
-  //
-  // this.grid[1][0] = {
-  //   timeSignature: [4, 4],
-  //   tempo: 130,
-  //   instruments: {
-  //     rightHand: {
-  //       name: 'square',
-  //       pack: 'oscillators'
-  //     },
-  //   },
-  //   notes: {
-  //     // Shorthand notation
-  //     rightHand: [
-  //       'sixteenth|B3|tie',
-  //       'sixteenth|E4|tie',
-  //       'sixteenth|G4|tie'
-  //     ],
-  //   }
-  // };
-  //
-  // this.grid[1][1] = {
-  //   timeSignature: [4, 4],
-  //   tempo: 130,
-  //   instruments: {
-  //     rightHand: {
-  //       name: 'square',
-  //       pack: 'oscillators'
-  //     },
-  //   },
-  //   notes: {
-  //     // Shorthand notation
-  //     rightHand: [
-  //       'sixteenth|C4|tie',
-  //       'sixteenth|E4|tie',
-  //       'sixteenth|G4|tie'
-  //     ],
-  //   }
-  // };
-  //
-  // this.grid[1][2] = {
-  //   timeSignature: [4, 4],
-  //   tempo: 130,
-  //   instruments: {
-  //     rightHand: {
-  //       name: 'square',
-  //       pack: 'oscillators'
-  //     },
-  //   },
-  //   notes: {
-  //     // Shorthand notation
-  //     rightHand: [
-  //       'sixteenth|B3|tie',
-  //       'sixteenth|D4|tie',
-  //       'sixteenth|G4|tie'
-  //     ],
-  //   }
-  // };
-  //
-  // this.grid[2][0] = {
-  //   timeSignature: [4, 4],
-  //   tempo: 130,
-  //   instruments: {
-  //     rightHand: {
-  //       name: 'square',
-  //       pack: 'oscillators'
-  //     },
-  //   },
-  //   notes: {
-  //     // Shorthand notation
-  //     rightHand: [
-  //       'sixteenth|B3|tie',
-  //       'sixteenth|E4|tie',
-  //       'sixteenth|G4|tie'
-  //     ],
-  //   }
-  // };
-  //
-  // this.grid[2][1] = {
-  //   timeSignature: [4, 4],
-  //   tempo: 130,
-  //   instruments: {
-  //     rightHand: {
-  //       name: 'square',
-  //       pack: 'oscillators'
-  //     },
-  //   },
-  //   notes: {
-  //     // Shorthand notation
-  //     rightHand: [
-  //       'sixteenth|C4|tie',
-  //       'sixteenth|F4|tie',
-  //       'sixteenth|A4|tie'
-  //     ],
-  //   }
-  // };
-  //
-  // this.grid[2][2] = {
-  //   timeSignature: [4, 4],
-  //   tempo: 130,
-  //   instruments: {
-  //     rightHand: {
-  //       name: 'square',
-  //       pack: 'oscillators'
-  //     },
-  //   },
-  //   notes: {
-  //     // Shorthand notation
-  //     rightHand: [
-  //       'sixteenth|C4|tie',
-  //       'sixteenth|F4|tie',
-  //       'sixteenth|A4|tie'
-  //     ],
-  //   }
-  // };
-
+  this.grid[0][0].json.notes.rightHand = ['sixteenth|B2|tie', 'sixteenth|D3|tie', 'sixteenth|G3|tie'];
+  this.grid[0][1].json.notes.rightHand = ['sixteenth|B2|tie', 'sixteenth|E3|tie', 'sixteenth|G3|tie'];
+  this.grid[0][2].json.notes.rightHand = ['sixteenth|A2|tie', 'sixteenth|D3|tie', 'sixteenth|F3|tie'];
+  this.grid[1][0].json.notes.rightHand = ['sixteenth|G3|tie', 'sixteenth|B3|tie', 'sixteenth|D4|tie'];
+  this.grid[1][1].json.notes.rightHand = ['sixteenth|C3|tie', 'sixteenth|E3|tie', 'sixteenth|G3|tie'];
+  this.grid[1][2].json.notes.rightHand = ['sixteenth|B2|tie', 'sixteenth|D3|tie', 'sixteenth|G3|tie'];
+  this.grid[2][0].json.notes.rightHand = ['sixteenth|B2|tie', 'sixteenth|D3|tie', 'sixteenth|F3|tie'];
+  this.grid[2][1].json.notes.rightHand = ['sixteenth|C3|tie', 'sixteenth|F3|tie', 'sixteenth|A3|tie'];
+  this.grid[2][2].json.notes.rightHand = ['sixteenth|B2|tie', 'sixteenth|D3|tie', 'sixteenth|F3|tie'];
 }
 
 System.prototype.initializeSounds = function() {
