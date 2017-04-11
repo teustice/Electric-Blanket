@@ -3,8 +3,16 @@ function System(){
   this.grid = [];
   this.coords = [0,0];
   this.gridSize = 3;
+  this.conductor = null;
   this.player = null;
-  this.note = "C4";
+}
+
+System.prototype.initializeConductor = function(){
+  this.conductor = new BandJS();
+}
+System.prototype.reinitializeConductor = function(){
+  this.conductor.audioContext.close();
+  this.conductor.destroy();
 }
 
 System.prototype.staticNotes = function(){
@@ -18,27 +26,63 @@ System.prototype.staticNotes = function(){
   this.grid[2][1] = "B2";
   this.grid[2][2] = "A6";
 }
-System.prototype.updateNote = function(){
-  this.note = this.grid[this.coords[0]][this.coords[1]];
+
+System.prototype.staticJSON = function(){
+  var json = {
+    timeSignature: [4, 4],
+    tempo: 100,
+    instruments: {
+      rightHand: {
+          name: 'square',
+          pack: 'oscillators'
+      },
+      leftHand: {
+          name: 'triangle',
+          pack: 'oscillators'
+      }
+    },
+    notes: {
+      // Shorthand notation
+      rightHand: [
+          'quarter|E5, F#4|tie',
+          'quarter|rest',
+          'quarter|E5, F#4',
+          'quarter|rest'
+      ],
+      // More verbose notation
+      leftHand: [
+          {
+              type: 'note',
+              pitch: 'C4',
+              rhythm: 'half'
+          }
+      ]
+    }
+  };
+  this.grid[0][0] = json;
+  this.grid[0][1] = json;
+  this.grid[0][2] = json;
+  this.grid[1][0] = json;
+  this.grid[1][1] = json;
+  this.grid[1][2] = json;
+  this.grid[2][0] = json;
+  this.grid[2][1] = json;
+  this.grid[2][2] = json;
 }
+
+//we now use json to store the note and more
+// System.prototype.updateNote = function(){
+//   this.note = this.grid[this.coords[0]][this.coords[1]];
+// }
 //timeSig is a 2 elem array containing top and bottom values
-System.prototype.initializeSounds = function(timeSig, tempo, rhythm) {
+System.prototype.initializeSounds = function() {
+  this.player = this.conductor.load(this.grid[this.coords[0]][this.coords[1]]);
 
-  var conductor = new BandJS();
-  conductor.setTimeSignature(timeSig[0],timeSig[1]);
-  conductor.setTempo(tempo);
-
-  var piano = conductor.createInstrument();
-  piano.note(rhythm, this.note);
-  // piano.note('quarter','E4, C4, G4');
-
-  this.player = conductor.finish();
 }
 
 System.prototype.startSound = function(){
-  console.log(this.player);
   this.player.play();
-  this.player.loop(true);
+  // this.player.loop(true);
 }
 
 System.prototype.stopSound = function(){
@@ -49,9 +93,10 @@ System.prototype.generateArray = function(){
   for (var i = 0; i < this.gridSize; i++){
     this.grid.push([]);
     for (var n = 0; n < this.gridSize; n++){
-      this.grid[i].push(`-`);
+      this.grid[i].push([]);
     }
   }
+  console.log(this.grid);
 }
 
 System.prototype.updateCoords = function(x,y){
@@ -120,12 +165,7 @@ var updateDomGrid = function(coords){
 $(document).ready(function(){
   //new is apparently a bad way of initializing objects
   var newSystem = new System();
-//  timeSig, tempo, note
-  var timeSig = [4,4];
-  var tempo = 140;
-  var note = "C4";
-  var rhythm = "quarter";
-  newSystem.initializeSounds(timeSig, tempo, rhythm);
+
 
 
   //Begin sequence
@@ -138,7 +178,9 @@ $(document).ready(function(){
   });
 
   newSystem.generateArray();
-  newSystem.staticNotes();
+  newSystem.staticJSON();
+  newSystem.initializeConductor();
+  newSystem.initializeSounds();
   generateDomGrid();
 
   $(document).keydown(function(event){
@@ -156,8 +198,8 @@ $(document).ready(function(){
     // newSystem.updateGrid();
     updateDomGrid(newSystem.coords);
     newSystem.stopSound();
-    newSystem.updateNote();
-    newSystem.initializeSounds(timeSig, tempo, rhythm);
+    newSystem.reinitializeConductor();
+    newSystem.initializeSounds();
     newSystem.startSound();
 
   });
