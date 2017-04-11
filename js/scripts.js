@@ -2,33 +2,16 @@
 function Data() {
   this.json = {
     timeSignature: [4, 4],
-    tempo: 100,
+    tempo: 130,
     instruments: {
       rightHand: {
           name: 'square',
           pack: 'oscillators'
       },
-      leftHand: {
-          name: 'triangle',
-          pack: 'oscillators'
-      }
     },
     notes: {
       // Shorthand notation
-      rightHand: [
-        'quarter|E5, F#4|tie',
-        'quarter|rest',
-        'quarter|E5, F#4',
-        'quarter|rest'
-      ],
-      // More verbose notation
-      leftHand: [
-          {
-            type: 'note',
-            pitch: 'C4',
-            rhythm: 'half'
-          }
-      ]
+      rightHand: [],
     }
   };
 }
@@ -59,6 +42,16 @@ System.prototype.staticJSON = function(){
   this.grid[2][0] = new Data();
   this.grid[2][1] = new Data();
   this.grid[2][2] = new Data();
+
+  this.grid[0][0].json.notes.rightHand = ['sixteenth|B2|tie', 'sixteenth|D3|tie', 'sixteenth|G3|tie'];
+  this.grid[0][1].json.notes.rightHand = ['sixteenth|B2|tie', 'sixteenth|E3|tie', 'sixteenth|G3|tie'];
+  this.grid[0][2].json.notes.rightHand = ['sixteenth|A2|tie', 'sixteenth|D3|tie', 'sixteenth|F3|tie'];
+  this.grid[1][0].json.notes.rightHand = ['sixteenth|G3|tie', 'sixteenth|B3|tie', 'sixteenth|D4|tie'];
+  this.grid[1][1].json.notes.rightHand = ['sixteenth|C3|tie', 'sixteenth|E3|tie', 'sixteenth|G3|tie'];
+  this.grid[1][2].json.notes.rightHand = ['sixteenth|B2|tie', 'sixteenth|D3|tie', 'sixteenth|G3|tie'];
+  this.grid[2][0].json.notes.rightHand = ['sixteenth|B2|tie', 'sixteenth|D3|tie', 'sixteenth|F3|tie'];
+  this.grid[2][1].json.notes.rightHand = ['sixteenth|C3|tie', 'sixteenth|F3|tie', 'sixteenth|A3|tie'];
+  this.grid[2][2].json.notes.rightHand = ['sixteenth|B2|tie', 'sixteenth|D3|tie', 'sixteenth|F3|tie'];
 }
 
 System.prototype.initializeSounds = function() {
@@ -176,11 +169,10 @@ $(document).ready(function(){
     }
 
     //back-end
-    // newSystem.updateGrid();
     updateDomGrid(newSystem.coords);
-    // newSystem.stopSound();
-    // newSystem.reinitializeConductor();
-    // newSystem.initializeSounds();
-    // newSystem.startSound();
+    newSystem.stopSound();
+    newSystem.reinitializeConductor();
+    newSystem.initializeSounds();
+    newSystem.startSound();
   });
 });
