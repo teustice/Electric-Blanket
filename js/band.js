@@ -537,7 +537,7 @@ function Instrument(name, pack, conductor) {
         return copy;
     }
 
-    
+
     var instrument = this,
         lastRepeatCount = 0,
         volumeLevel = 1,
@@ -547,7 +547,7 @@ function Instrument(name, pack, conductor) {
     instrument.bufferPosition = 0;
     instrument.instrument = conductor.packs.instrument[pack](name, conductor.audioContext);
     instrument.notes = [];
-    
+
     /**
      * Set volume level for an instrument
      *
@@ -949,7 +949,7 @@ function Player(conductor) {
     player.playing = false;
     player.looping = false;
     player.muted = false;
-    
+
     /**
      * Grabs currently buffered notes and calls their start/stop methods.
      *
