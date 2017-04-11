@@ -1,5 +1,6 @@
 //back-end
-function Data() {
+function Data(color) {
+  this.color = color;
   this.json = {
     timeSignature: [4, 4],
     tempo: 100,
@@ -41,6 +42,37 @@ function System(){
   this.player = null;
 }
 
+System.prototype.getColors = function(){
+  var arr = [];
+  arr.push(this.grid[this.coords[0]][this.coords[1]].color);
+
+  if(this.grid[this.coords[0]][this.coords[1]-1]) {
+    arr.push(this.grid[this.coords[0]][this.coords[1]-1].color);
+  } else {
+    arr.push("white");
+  }
+
+  if(this.grid[this.coords[0]][this.coords[1]+1]) {
+    arr.push(this.grid[this.coords[0]][this.coords[1]+1].color);
+  } else {
+    arr.push("white");
+  }
+
+  if(this.grid[this.coords[0]-1]) {
+    arr.push(this.grid[this.coords[0]-1][this.coords[1]].color);
+  } else {
+    arr.push("white");
+  }
+
+  if(this.grid[this.coords[0]+1]) {
+    arr.push(this.grid[this.coords[0]+1][this.coords[1]].color);
+  } else {
+    arr.push("white");
+  }
+
+  return arr;
+}
+
 System.prototype.initializeConductor = function(){
   this.conductor = new BandJS();
 }
@@ -50,15 +82,15 @@ System.prototype.reinitializeConductor = function(){
 }
 
 System.prototype.staticJSON = function(){
-  this.grid[0][0] = new Data();
-  this.grid[0][1] = new Data();
-  this.grid[0][2] = new Data();
-  this.grid[1][0] = new Data();
-  this.grid[1][1] = new Data();
-  this.grid[1][2] = new Data();
-  this.grid[2][0] = new Data();
-  this.grid[2][1] = new Data();
-  this.grid[2][2] = new Data();
+  this.grid[0][0] = new Data("lightblue");
+  this.grid[0][1] = new Data("blue");
+  this.grid[0][2] = new Data("navy");
+  this.grid[1][0] = new Data("lightgreen");
+  this.grid[1][1] = new Data("green");
+  this.grid[1][2] = new Data("darkgreen");
+  this.grid[2][0] = new Data("lightpink");
+  this.grid[2][1] = new Data("salmon");
+  this.grid[2][2] = new Data("red");
 }
 
 System.prototype.initializeSounds = function() {
@@ -116,36 +148,16 @@ var updateDomGrid = function(coords){
   $(`#s${coords[0]}${coords[1]}`).addClass("active");
 }
 
-var moveLR = function(direction) {
-  var displacement = $(`#s0${1}`).css("width");
-  displacement = direction * parseInt(displacement.replace(/px/, ""),10);
-  console.log(displacement);
-  var current = 0;
-  var total = 0;
-  for (var i = 0; i < 3; i++){
-    for (var n = 0; n < 3; n++) {
-      current = parseInt(($(`#s${i}${n}`).css("left")).replace(/px/, ""),10);
-      total = current+displacement;
-      // $(`#s${i}${n}`).css("left", total);
-      $(`#s${i}${n}`).animate({left:total}, 400);
-    }
-  }
-}
 
-var moveUD = function(direction) {
-  var displacement = $(`#s0${1}`).css("height");
-  displacement = direction * parseInt(displacement.replace(/px/, ""),10);
-  console.log(displacement);
-  var current = 0;
-  var total = 0;
-  for (var i = 0; i < 3; i++){
-    for (var n = 0; n < 3; n++) {
-      current = parseInt(($(`#s${i}${n}`).css("top")).replace(/px/, ""),10);
-      total = current+displacement;
-      // $(`#s${i}${n}`).css("top", total);
-      $(`#s${i}${n}`).animate({top:total}, 400);
-    }
-  }
+var moveCircle = function(system) {
+  var colors = system.getColors();
+
+  $(`#s11`).css("background-color", colors[0]);
+  $(`#s11`).css("border-top-color", colors[1]);
+  $(`#s11`).css("border-bottom-color", colors[2]);
+  $(`#s11`).css("border-left-color", colors[3]);
+  $(`#s11`).css("border-right-color", colors[4]);
+
 }
 
 $(document).ready(function(){
@@ -157,27 +169,28 @@ $(document).ready(function(){
   newSystem.initializeConductor();
   newSystem.initializeSounds();
   generateDomGrid();
+  moveCircle(newSystem);
 
   $(document).keydown(function(event){
     var keyCode = event.keyCode;
     //left: 37 right: 39 up: 38 down: 40
     if(keyCode === 37){
       newSystem.updateCoords(-1,0);
-      moveLR(1);
+      // moveLR(1);
     } else if(keyCode === 39){
       newSystem.updateCoords(1,0);
-      moveLR(-1);
+      // moveLR(-1);
     }else if(keyCode === 38){
       newSystem.updateCoords(0,-1);
-      moveUD(1);
+      // moveUD(1);
     }else if(keyCode === 40){
       newSystem.updateCoords(0,1);
-      moveUD(-1);
+      // moveUD(-1);
     }
 
+    moveCircle(newSystem);
     //back-end
-    // newSystem.updateGrid();
-    updateDomGrid(newSystem.coords);
+    // updateDomGrid(newSystem.coords);
     // newSystem.stopSound();
     // newSystem.reinitializeConductor();
     // newSystem.initializeSounds();
