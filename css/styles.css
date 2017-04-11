@@ -3,14 +3,35 @@
 }
 
 .grid-row .grid-space{
-  display: inline-block;
-  border: 1px solid black;
-  height: 100px;
+  /*display: inline-block;*/
+  /*border: 1px solid black;*/
+  /*height: 100px;
   width: 100px;
+}*/
 }
 
+.grid-space {
+  position: fixed;
+  height: 90vh;
+  width: 90vw;
+}
+
+
+#s00{ left: -85vw; top: -85vh;background-color: lightblue;} #s01{ left: 5vw; top: -85vh;background-color: blue;}#s02{ left: 95vw; top: -85vh;background-color: darkblue;}
+
+#s10{ left: -85vw; top: 5vh;background-color: lightgreen;}#s11{ left: 5vw; top: 5vh;background-color: green;}#s12{ left: 95vw; top: 5vh;background-color: darkgreen;}
+
+#s20{ left: -85vw; top: 95vh;background-color: lightpink;}#s21{ left: 5vw; top: 95vh;background-color: salmon;}#s22{left: 95vw; top: 95vh;background-color: red;}
+
+/*#s10{left: 0; top: 0;}
+#s11{left: 0; top: 0;}
+#s12{left: 0; top: 0;}
+#s20{left: 0; top: 0;}
+#s21{left: 0; top: 0;}
+#s22{left: 0; top: 0;}*/
+
 .grid-row {
-  height: 100px;
+  /*height: 100px;*/
 }
 
 .active {

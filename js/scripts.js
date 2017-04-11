@@ -16,17 +16,17 @@ function Data() {
     notes: {
       // Shorthand notation
       rightHand: [
-          'quarter|E5, F#4|tie',
-          'quarter|rest',
-          'quarter|E5, F#4',
-          'quarter|rest'
+        'quarter|E5, F#4|tie',
+        'quarter|rest',
+        'quarter|E5, F#4',
+        'quarter|rest'
       ],
       // More verbose notation
       leftHand: [
           {
-              type: 'note',
-              pitch: 'C4',
-              rhythm: 'half'
+            type: 'note',
+            pitch: 'C4',
+            rhythm: 'half'
           }
       ]
     }
@@ -98,9 +98,9 @@ System.prototype.generateArray = function(){
 //front-end
 var generateDomGrid = function(){
   for (var i = 0; i < 3; i++){
-    $(".container").append(`<div class="grid-row" id="row-${i}"></div>`);
+    $(".wrapper").append(`<div class="grid-row" id="row-${i}"></div>`);
     for (var n = 0; n < 3; n++) {
-        $(`#row-${i}`).append(`<div class="grid-space" id="${n}${i}"></div>`);
+        $(`#row-${i}`).append(`<div class="grid-space" id="s${n}${i}"></div>`);
     }
   }
 }
@@ -108,12 +108,44 @@ var generateDomGrid = function(){
 var updateDomGrid = function(coords){
   for (var i = 0; i < 3; i++){
     for (var n = 0; n < 3; n++) {
-      if($(`#${i}${n}`).hasClass("active")){
-        $(`#${i}${n}`).removeClass("active")
+      if($(`#s${i}${n}`).hasClass("active")){
+        $(`#s${i}${n}`).removeClass("active")
       }
     }
   }
-  $(`#${coords[0]}${coords[1]}`).addClass("active");
+  $(`#s${coords[0]}${coords[1]}`).addClass("active");
+}
+
+var moveLR = function(direction) {
+  var displacement = $(`#s0${1}`).css("width");
+  displacement = direction * parseInt(displacement.replace(/px/, ""),10);
+  console.log(displacement);
+  var current = 0;
+  var total = 0;
+  for (var i = 0; i < 3; i++){
+    for (var n = 0; n < 3; n++) {
+      current = parseInt(($(`#s${i}${n}`).css("left")).replace(/px/, ""),10);
+      total = current+displacement;
+      // $(`#s${i}${n}`).css("left", total);
+      $(`#s${i}${n}`).animate({left:total}, 400);
+    }
+  }
+}
+
+var moveUD = function(direction) {
+  var displacement = $(`#s0${1}`).css("height");
+  displacement = direction * parseInt(displacement.replace(/px/, ""),10);
+  console.log(displacement);
+  var current = 0;
+  var total = 0;
+  for (var i = 0; i < 3; i++){
+    for (var n = 0; n < 3; n++) {
+      current = parseInt(($(`#s${i}${n}`).css("top")).replace(/px/, ""),10);
+      total = current+displacement;
+      // $(`#s${i}${n}`).css("top", total);
+      $(`#s${i}${n}`).animate({top:total}, 400);
+    }
+  }
 }
 
 $(document).ready(function(){
@@ -131,18 +163,24 @@ $(document).ready(function(){
     //left: 37 right: 39 up: 38 down: 40
     if(keyCode === 37){
       newSystem.updateCoords(-1,0);
+      moveLR(1);
     } else if(keyCode === 39){
       newSystem.updateCoords(1,0);
+      moveLR(-1);
     }else if(keyCode === 38){
       newSystem.updateCoords(0,-1);
+      moveUD(1);
     }else if(keyCode === 40){
       newSystem.updateCoords(0,1);
+      moveUD(-1);
     }
+
+    //back-end
     // newSystem.updateGrid();
     updateDomGrid(newSystem.coords);
-    newSystem.stopSound();
-    newSystem.reinitializeConductor();
-    newSystem.initializeSounds();
-    newSystem.startSound();
+    // newSystem.stopSound();
+    // newSystem.reinitializeConductor();
+    // newSystem.initializeSounds();
+    // newSystem.startSound();
   });
 });
