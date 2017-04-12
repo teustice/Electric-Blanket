@@ -54,7 +54,7 @@ System.prototype.staticJSON = function() {
   this.grid[2][2].json.notes.rightHand = ['sixteenth|B2|tie', 'sixteenth|D3|tie', 'sixteenth|F3|tie'];
 }
 
-System.prototype.initializeSounds = function() {
+System.prototype.loadSounds = function() {
   this.player = this.conductor.load(this.grid[this.coords[0]][this.coords[1]].json);
 }
 
@@ -153,7 +153,7 @@ var highlight = function(system){
   });
 }
 
-var unlight = function(system){
+var resetHighlight = function(system){
   var coords = system.getCoords();
   $(`.circle-boy`).css({
     width: "60%",
@@ -172,6 +172,9 @@ var unlight = function(system){
 $(document).ready(function() {
   var newSystem = new System();
   newSystem.generateArray();
+  newSystem.initializeConductor();
+  newSystem.staticJSON();
+  newSystem.loadSounds();
   generateDomGrid();
 
   $(document).keydown(function(event) {
@@ -180,8 +183,12 @@ $(document).ready(function() {
       //left: 37 right: 39 up: 38 down: 40
       newSystem.addKeys(keyCode);
       newSystem.updateCoords();
-      unlight(newSystem);
+      resetHighlight(newSystem);
       highlight(newSystem);
+      newSystem.stopSound();
+      newSystem.reinitializeConductor();
+      newSystem.loadSounds();
+      newSystem.startSound();
     }
   });
 
@@ -192,8 +199,12 @@ $(document).ready(function() {
     if(newSystem.keys.includes(keyCode)){
       toRemove = newSystem.removeKeys(keyCode);
       newSystem.updateCoords();
-      unlight(newSystem);
+      resetHighlight(newSystem);
       highlight(newSystem);
+      newSystem.stopSound();
+      newSystem.reinitializeConductor();
+      newSystem.loadSounds();
+      newSystem.startSound();
     }
   });
 });
