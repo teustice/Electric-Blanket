@@ -209,9 +209,6 @@ $(document).ready(function() {
 
       console.log(newSystem.newStartTime());
       newSystem.startTimeMeasurement();
-
-
-
     }
   });
 
@@ -232,7 +229,6 @@ $(document).ready(function() {
 
       console.log(newSystem.newStartTime());
       newSystem.startTimeMeasurement();
-
     }
   });
 });
