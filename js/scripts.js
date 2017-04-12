@@ -26,6 +26,7 @@ function System(){
   this.gridSize = 3;
   this.conductor = null;
   this.player = null;
+  this.keys = [];
 }
 
 System.prototype.initializeConductor = function(){
@@ -90,6 +91,24 @@ System.prototype.generateArray = function(){
       this.grid[i].push(`-`);
     }
   }
+}
+
+System.prototype.addKeys = function(key){
+  if(!this.keys.includes(key)){
+    if(this.keys.length < 2){
+      this.keys.push(key);
+    } else {
+      this.keys.push(key);
+      this.keys.shift();
+    }
+    console.log(this.keys);
+  }
+
+
+}
+
+System.prototype.removeKeys = function(key){
+
 }
 
 //front-end
@@ -207,7 +226,6 @@ var unlight = function(key){
 $(document).ready(function(){
   //new is apparently a bad way of initializing objects
   var newSystem = new System();
-  var lastKey = 0;
 
   newSystem.generateArray();
   // newSystem.staticJSON();
@@ -217,22 +235,24 @@ $(document).ready(function(){
 
   $(document).keydown(function(event){
     var keyCode = event.keyCode;
-    var keys = [];
-    //left: 37 right: 39 up: 38 down: 40
-    if(keyCode === 37 && keyCode != lastKey){
-      newSystem.updateCoords(-1,0);
-      highlight("left");
-    } else if(keyCode === 39 && keyCode != lastKey){
-      newSystem.updateCoords(1,0);
-      highlight("right");
-    }else if(keyCode === 38&& keyCode != lastKey){
-      newSystem.updateCoords(0,-1);
-      highlight("up");
-    }else if(keyCode === 40&& keyCode != lastKey){
-      newSystem.updateCoords(0,1);
-      highlight("down");
+    if(!newSystem.keys.includes(keyCode)){
+      //left: 37 right: 39 up: 38 down: 40
+      if(keyCode === 37){
+        newSystem.updateCoords(-1,0);
+        highlight("left");
+      } else if(keyCode === 39){
+        newSystem.updateCoords(1,0);
+        highlight("right");
+      }else if(keyCode === 38){
+        newSystem.updateCoords(0,-1);
+        highlight("up");
+      }else if(keyCode === 40){
+        newSystem.updateCoords(0,1);
+        highlight("down");
+      }
     }
 
+    newSystem.addKeys(keyCode);
     //back-end
     // newSystem.updateGrid();
     // updateDomGrid(newSystem.coords);
@@ -240,7 +260,6 @@ $(document).ready(function(){
     // newSystem.reinitializeConductor();
     // newSystem.initializeSounds();
     // newSystem.startSound();
-    lastKey = keyCode;
   });
 
   $(document).keyup(function(event){
