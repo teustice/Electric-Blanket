@@ -145,7 +145,7 @@ var updateDomGrid = function(coords) {
 }
 
 var highlight = function(system){
-  var coords = system.getCoords();
+  var coords = system.getCoords(system);
   $(`#s${coords[0]}${coords[1]} .circle-boy`).css({
     width: "100%",
     height: "100%",
@@ -153,24 +153,32 @@ var highlight = function(system){
   });
 }
 
-var unlight = function(){
+var resetHighlight = function(system){
+  var coords = system.getCoords(system);
   $(`.circle-boy`).css({
-    width: "75%",
-    height: "75%",
-    "margin" : "10%"
+    width: "60%",
+    height: "60%",
+    "margin" : "20%"
   });
-  $(`#s11 .circle-boy`).css({
-    width: "100%",
-    height: "100%",
-    "margin" : "0%"
-  });
+
+  if(coords[0] === 1 && coords[1] === 1) {
+    $(`#s11 .circle-boy`).css({
+      width: "100%",
+      height: "100%",
+      "margin" : "0%"
+    });
   }
+}
 
 $(document).ready(function() {
   //new is apparently a bad way of initializing objects
   var newSystem = new System();
   newSystem.generateArray();
+  newSystem.initializeConductor();
+  newSystem.staticJSON();
+  newSystem.initializeSounds();
   generateDomGrid();
+
 
   $(document).keydown(function(event) {
     var keyCode = event.keyCode;
@@ -178,7 +186,15 @@ $(document).ready(function() {
       //left: 37 right: 39 up: 38 down: 40
       newSystem.addKeys(keyCode);
       newSystem.updateCoords();
+      resetHighlight(newSystem);
       highlight(newSystem);
+
+
+      newSystem.stopSound();
+      newSystem.reinitializeConductor();
+      newSystem.initializeSounds();
+      newSystem.startSound();
+
     }
   });
 
@@ -189,7 +205,13 @@ $(document).ready(function() {
     if(newSystem.keys.includes(keyCode)){
       toRemove = newSystem.removeKeys(keyCode);
       newSystem.updateCoords();
-      unlight();
+      resetHighlight(newSystem);
+      highlight(newSystem);
+
+      newSystem.stopSound();
+      newSystem.reinitializeConductor();
+      newSystem.initializeSounds();
+      newSystem.startSound();
     }
   });
 });
