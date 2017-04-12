@@ -95,9 +95,9 @@ System.prototype.generateArray = function(){
 //front-end
 var generateDomGrid = function(){
   for (var i = 0; i < 3; i++){
-    $(".wrapper").append(`<div class="grid-row" id="row-${i}"></div>`);
+    $(".container").append(`<div class="grid-row" id="row-${i}"></div>`);
     for (var n = 0; n < 3; n++) {
-        $(`#row-${i}`).append(`<div class="grid-space" id="s${n}${i}"></div>`);
+        $(`#row-${i}`).append(`<div class="grid-space" id="s${n}${i}"><div class="circle-boy"></div></div>`);
     }
   }
 }
@@ -113,71 +113,148 @@ var updateDomGrid = function(coords){
   $(`#s${coords[0]}${coords[1]}`).addClass("active");
 }
 
-var moveLR = function(direction) {
-  var displacement = $(`#s0${1}`).css("width");
-  displacement = direction * parseInt(displacement.replace(/px/, ""),10);
-  console.log(displacement);
-  var current = 0;
-  var total = 0;
-  for (var i = 0; i < 3; i++){
-    for (var n = 0; n < 3; n++) {
-      current = parseInt(($(`#s${i}${n}`).css("left")).replace(/px/, ""),10);
-      total = current+displacement;
-      // $(`#s${i}${n}`).css("left", total);
-      $(`#s${i}${n}`).animate({left:total}, 400);
-    }
+// var moveLR = function(direction) {
+//   var displacement = $(`#s0${1}`).css("width");
+//   displacement = direction * parseInt(displacement.replace(/px/, ""),10);
+//   console.log(displacement);
+//   var current = 0;
+//   var total = 0;
+//   for (var i = 0; i < 3; i++){
+//     for (var n = 0; n < 3; n++) {
+//       current = parseInt(($(`#s${i}${n}`).css("left")).replace(/px/, ""),10);
+//       total = current+displacement;
+//       // $(`#s${i}${n}`).css("left", total);
+//       $(`#s${i}${n}`).animate({left:total}, 400);
+//     }
+//   }
+// }
+//
+// var moveUD = function(direction) {
+//   var displacement = $(`#s0${1}`).css("height");
+//   displacement = direction * parseInt(displacement.replace(/px/, ""),10);
+//   console.log(displacement);
+//   var current = 0;
+//   var total = 0;
+//   for (var i = 0; i < 3; i++){
+//     for (var n = 0; n < 3; n++) {
+//       current = parseInt(($(`#s${i}${n}`).css("top")).replace(/px/, ""),10);
+//       total = current+displacement;
+//       // $(`#s${i}${n}`).css("top", total);
+//       $(`#s${i}${n}`).animate({top:total}, 400);
+//     }
+//   }
+// }
+
+
+var highlight = function(key){
+  console.log(key);
+  if(key === "left"){
+    $("#s01 .circle-boy").addClass("active");
+    $("#s01 .circle-boy").css({
+      width: "100%",
+      height: "100%",
+      "margin" : "0"
+    });
+  } else if (key === "right"){
+    $("#s21 .circle-boy").css({
+      width: "100%",
+      height: "100%",
+      "margin" : "0"
+    });
+  } else if (key === "up"){
+    $("#s10 .circle-boy").css({
+      width: "100%",
+      height: "100%",
+      "margin" : "0"
+    });
+  } else if (key === "down"){
+    $("#s12 .circle-boy").css({
+      width: "100%",
+      height: "100%",
+      "margin" : "0"
+    });
   }
 }
 
-var moveUD = function(direction) {
-  var displacement = $(`#s0${1}`).css("height");
-  displacement = direction * parseInt(displacement.replace(/px/, ""),10);
-  console.log(displacement);
-  var current = 0;
-  var total = 0;
-  for (var i = 0; i < 3; i++){
-    for (var n = 0; n < 3; n++) {
-      current = parseInt(($(`#s${i}${n}`).css("top")).replace(/px/, ""),10);
-      total = current+displacement;
-      // $(`#s${i}${n}`).css("top", total);
-      $(`#s${i}${n}`).animate({top:total}, 400);
-    }
+var unlight = function(key){
+  if(key === "left") {
+    $("#s01 .circle-boy").css({
+      width: "80%",
+      height: "80%",
+      "margin" : "10%"
+    });
+  } else if (key === "right"){
+    $("#s21 .circle-boy").css({
+      width: "80%",
+      height: "80%",
+      "margin" : "10%"
+    });
+  } else if (key === "up"){
+    $("#s10 .circle-boy").css({
+      width: "80%",
+      height: "80%",
+      "margin" : "10%"
+    });
+  } else if (key === "down"){
+    $("#s12 .circle-boy").css({
+      width: "80%",
+      height: "80%",
+      "margin" : "10%"
+    });
   }
 }
 
 $(document).ready(function(){
   //new is apparently a bad way of initializing objects
   var newSystem = new System();
+  var lastKey = 0;
 
   newSystem.generateArray();
-  newSystem.staticJSON();
-  newSystem.initializeConductor();
-  newSystem.initializeSounds();
+  // newSystem.staticJSON();
+  // newSystem.initializeConductor();
+  // newSystem.initializeSounds();
   generateDomGrid();
 
   $(document).keydown(function(event){
     var keyCode = event.keyCode;
+    var keys = [];
     //left: 37 right: 39 up: 38 down: 40
-    if(keyCode === 37){
+    if(keyCode === 37 && keyCode != lastKey){
       newSystem.updateCoords(-1,0);
-      moveLR(1);
-    } else if(keyCode === 39){
+      highlight("left");
+    } else if(keyCode === 39 && keyCode != lastKey){
       newSystem.updateCoords(1,0);
-      moveLR(-1);
-    }else if(keyCode === 38){
+      highlight("right");
+    }else if(keyCode === 38&& keyCode != lastKey){
       newSystem.updateCoords(0,-1);
-      moveUD(1);
-    }else if(keyCode === 40){
+      highlight("up");
+    }else if(keyCode === 40&& keyCode != lastKey){
       newSystem.updateCoords(0,1);
-      moveUD(-1);
+      highlight("down");
     }
 
     //back-end
     // newSystem.updateGrid();
-    updateDomGrid(newSystem.coords);
+    // updateDomGrid(newSystem.coords);
     // newSystem.stopSound();
     // newSystem.reinitializeConductor();
     // newSystem.initializeSounds();
     // newSystem.startSound();
+    lastKey = keyCode;
   });
+
+  $(document).keyup(function(event){
+    var keyCode = event.keyCode;
+    var keys = [];
+    //left: 37 right: 39 up: 38 down: 40
+    if(keyCode === 37){
+      unlight("left");
+    } else if(keyCode === 39){
+      unlight("right");
+    }else if(keyCode === 38){
+      unlight("up");
+    }else if(keyCode === 40){
+      unlight("down");
+    }
+  })
 });
