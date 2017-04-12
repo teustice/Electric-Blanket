@@ -72,7 +72,6 @@ System.prototype.getCoords = function(){
 }
 
 System.prototype.updateCoords = function(){
-  console.log(this.keys);
   if(this.keys.includes(37) && this.keys.includes(38)){
     this.coords = [0,0]
   } else if(this.keys.includes(38) && this.keys.includes(39)) {
@@ -154,21 +153,23 @@ var highlight = function(system){
   });
 }
 
-var unlight = function(){
+var unlight = function(system){
+  var coords = system.getCoords();
   $(`.circle-boy`).css({
-    width: "75%",
-    height: "75%",
-    "margin" : "10%"
+    width: "60%",
+    height: "60%",
+    "margin" : "20%"
   });
-  $(`#s11 .circle-boy`).css({
-    width: "100%",
-    height: "100%",
-    "margin" : "0%"
-  });
+  if(coords[0] === 1 && coords[1] === 1) {
+    $(`#s11 .circle-boy`).css({
+      width: "100%",
+      height: "100%",
+      "margin" : "0%"
+    });
   }
+}
 
 $(document).ready(function() {
-  //new is apparently a bad way of initializing objects
   var newSystem = new System();
   newSystem.generateArray();
   generateDomGrid();
@@ -179,7 +180,7 @@ $(document).ready(function() {
       //left: 37 right: 39 up: 38 down: 40
       newSystem.addKeys(keyCode);
       newSystem.updateCoords();
-      unlight();
+      unlight(newSystem);
       highlight(newSystem);
     }
   });
@@ -191,7 +192,7 @@ $(document).ready(function() {
     if(newSystem.keys.includes(keyCode)){
       toRemove = newSystem.removeKeys(keyCode);
       newSystem.updateCoords();
-      unlight();
+      unlight(newSystem);
       highlight(newSystem);
     }
   });
