@@ -72,6 +72,7 @@ System.prototype.getCoords = function(){
 }
 
 System.prototype.updateCoords = function(){
+  console.log(this.keys);
   if(this.keys.includes(37) && this.keys.includes(38)){
     this.coords = [0,0]
   } else if(this.keys.includes(38) && this.keys.includes(39)) {
@@ -178,6 +179,7 @@ $(document).ready(function() {
       //left: 37 right: 39 up: 38 down: 40
       newSystem.addKeys(keyCode);
       newSystem.updateCoords();
+      unlight();
       highlight(newSystem);
     }
   });
@@ -190,6 +192,7 @@ $(document).ready(function() {
       toRemove = newSystem.removeKeys(keyCode);
       newSystem.updateCoords();
       unlight();
+      highlight(newSystem);
     }
   });
 });
