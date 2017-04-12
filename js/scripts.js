@@ -137,6 +137,10 @@ var generateDomGrid = function(){
   }
 }
 
+var generateCircle = function(){
+  $(".container").append(`<div id="circle"></div>`);
+}
+
 var updateDomGrid = function(coords){
   for (var i = 0; i < 3; i++){
     for (var n = 0; n < 3; n++) {
@@ -151,12 +155,11 @@ var updateDomGrid = function(coords){
 
 var moveCircle = function(system) {
   var colors = system.getColors();
-
-  $(`#s11`).css("background-color", colors[0]);
-  $(`#s11`).css("border-top-color", colors[1]);
-  $(`#s11`).css("border-bottom-color", colors[2]);
-  $(`#s11`).css("border-left-color", colors[3]);
-  $(`#s11`).css("border-right-color", colors[4]);
+  $(`#circle`).css("background-color", colors[0]);
+  $(`#circle`).css("border-top-color", colors[1]);
+  $(`#circle`).css("border-bottom-color", colors[2]);
+  $(`#circle`).css("border-left-color", colors[3]);
+  $(`#circle`).css("border-right-color", colors[4]);
 
 }
 
@@ -168,7 +171,8 @@ $(document).ready(function(){
   newSystem.staticJSON();
   newSystem.initializeConductor();
   newSystem.initializeSounds();
-  generateDomGrid();
+  generateCircle();
+  // generateDomGrid();
   moveCircle(newSystem);
 
   $(document).keydown(function(event){
@@ -176,16 +180,12 @@ $(document).ready(function(){
     //left: 37 right: 39 up: 38 down: 40
     if(keyCode === 37){
       newSystem.updateCoords(-1,0);
-      // moveLR(1);
     } else if(keyCode === 39){
       newSystem.updateCoords(1,0);
-      // moveLR(-1);
     }else if(keyCode === 38){
       newSystem.updateCoords(0,-1);
-      // moveUD(1);
     }else if(keyCode === 40){
       newSystem.updateCoords(0,1);
-      // moveUD(-1);
     }
 
     moveCircle(newSystem);
