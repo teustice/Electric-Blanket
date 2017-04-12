@@ -72,15 +72,38 @@ System.prototype.stopSound = function(){
   this.player.stop(true);
 }
 
-System.prototype.updateCoords = function(x,y){
-  if(x === -1 && this.coords[0] > 0){
-    this.coords[0] += x;
-  } else if(y === -1 && this.coords[1] > 0) {
-    this.coords[1] += y;
-  } else if(x === 1 && this.coords[0] < (this.gridSize-1)) {
-    this.coords[0] += x;
-  } else if(y === 1 && this.coords[1] < (this.gridSize-1)) {
-    this.coords[1] += y;
+System.prototype.getcoords = function () {
+  return this.coords;
+};
+
+System.prototype.updateCoords = function(){
+  //left: 37 right: 39 up: 38 down: 40
+  if (this.keys.includes(37) && this.keys.includes(38)) {
+    this.coords = [0, 0];
+  } else if (this.keys.includes(38) && this.keys.includes(39)) {
+    this.coords = [2, 0];
+    console.log("top right");
+  } else if (this.keys.includes(39) && this.keys.includes(40)) {
+    this.coords = [2, 2];
+    console.log("bottom right");
+  } else if (this.keys.includes(37) && this.keys.includes(40)) {
+    this.coords = [0, 2];
+    console.log("bottom left");
+  } else if (this.keys[this.keys.length-1] === 38) {
+    this.coords = [1, 0];
+    console.log("top");
+  } else if (this.keys[this.keys.length-1] === 39) {
+    this.coords = [2, 1];
+    console.log("right");
+  } else if (this.keys[this.keys.length-1] === 40) {
+    this.coords = [1, 2];
+    console.log("bottom");
+  } else if (this.keys[this.keys.length-1] === 37) {
+    this.coords = [0, 1];
+    console.log("left");
+  } else if (this.keys.length === 0) {
+    this.coords = [1, 1];
+    console.log("center");
   }
 }
 
@@ -98,8 +121,8 @@ System.prototype.addKeys = function(key){
     if(this.keys.length < 2){
       this.keys.push(key);
     } else {
-      this.keys.push(key);
       this.keys.shift();
+      this.keys.push(key);
     }
     console.log(this.keys);
   }
@@ -113,6 +136,7 @@ System.prototype.removeKeys = function(key){
   } else {
     this.keys.pop();
   }
+  console.log(this.keys);
 }
 
 //front-end
@@ -137,7 +161,7 @@ var updateDomGrid = function(coords){
 }
 
 var highlight = function(key){
-  console.log(key);
+  // console.log(key);
   if(key === "left"){
     $("#s01 .circle-boy").css({
       width: "100%",
@@ -221,6 +245,7 @@ $(document).ready(function(){
         highlight("down");
       }
       newSystem.addKeys(keyCode);
+      newSystem.updateCoords();
     }
 
     //back-end
@@ -248,6 +273,7 @@ $(document).ready(function(){
         unlight("down");
       }
       newSystem.removeKeys(keyCode);
+      newSystem.updateCoords();
     }
   })
 });

@@ -1,18 +1,33 @@
+body {
+  background-color: rgb(254,200,99);
+}
 .container {
   text-align: center;
 }
 
-.grid-row .grid-space{
+.grid-row{
   display: inline-block;
-  border: 1px solid black;
-  height: 100px;
-  width: 100px;
+  width: 65vw;
+}
+.grid-row:first-child  {
+  margin-top: 5vw;
 }
 
-.grid-row {
-  height: 100px;
+.grid-space {
+  display: inline-block;
+  height: 10vh;
+  width: 10vh;
+  margin: 5vh;
+  text-align: -webkit-center;
 }
 
-.active {
+.circle-boy {
   background-color: black;
+  width: 80%;
+  height: 80%;
+  margin: 10%;
+  border-radius: 50%;
 }
+#s00 .circle-boy{background-color: rgb(234,120,98);}#s01 .circle-boy{background-color: rgb(254,240,145);}#s02 .circle-boy{background-color: rgb(53,209,133);}
+#s10 .circle-boy{background-color: rgb(246,86,71);}#s11 .circle-boy{background-color: rgb(255,255,255);}#s12 .circle-boy{background-color: rgb(86,185,199);}
+#s20 .circle-boy{background-color: rgb(214,105,137);}#s21 .circle-boy{background-color: rgb(105,96,160);}#s22 .circle-boy{background-color: rgb(83,129,217);}
