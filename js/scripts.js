@@ -123,6 +123,18 @@ System.prototype.removeKeys = function(key){
   return toRemove;
 }
 
+System.prototype.startTimeMeasurement = function () {
+  this.startTime = new Date().getTime();
+  return this.startTime;
+};
+
+System.prototype.newStartTime = function () {
+  var newStartTime = 0;
+  this.switchTime = new Date().getTime();
+  newStartTime = (this.switchTime - this.startTime) % 1000;
+  return newStartTime
+};
+
 //front-end
 var generateDomGrid = function(){
   for (var i = 0; i < 3; i++){
@@ -195,6 +207,11 @@ $(document).ready(function() {
       newSystem.initializeSounds();
       newSystem.startSound();
 
+      console.log(newSystem.newStartTime());
+      newSystem.startTimeMeasurement();
+
+
+
     }
   });
 
@@ -212,6 +229,10 @@ $(document).ready(function() {
       newSystem.reinitializeConductor();
       newSystem.initializeSounds();
       newSystem.startSound();
+
+      console.log(newSystem.newStartTime());
+      newSystem.startTimeMeasurement();
+
     }
   });
 });
