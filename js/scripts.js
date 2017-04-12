@@ -93,18 +93,6 @@ System.prototype.updateCoords = function(){
   }
 }
 
-System.prototype.updateCoords = function(x, y) {
-  if (x === -1 && this.coords[0] > 0) {
-    this.coords[0] += x;
-  } else if (y === -1 && this.coords[1] > 0) {
-    this.coords[1] += y;
-  } else if (x === 1 && this.coords[0] < (this.gridSize - 1)) {
-    this.coords[0] += x;
-  } else if (y === 1 && this.coords[1] < (this.gridSize - 1)) {
-    this.coords[1] += y;
-  }
-}
-
 System.prototype.generateArray = function() {
   for (var i = 0; i < this.gridSize; i++) {
     this.grid.push([]);
@@ -126,11 +114,13 @@ System.prototype.addKeys = function(key){
 }
 
 System.prototype.removeKeys = function(key){
+  var toRemove = 0;
   if(this.keys.indexOf(key) === 0){
-    this.keys.shift();
+    toRemove = this.keys.shift();
   } else {
-    this.keys.pop();
+    toRemove = this.keys.pop();
   }
+  return toRemove;
 }
 
 //front-end
@@ -154,141 +144,27 @@ var updateDomGrid = function(coords) {
   $(`#s${coords[0]}${coords[1]}`).addClass("active");
 }
 
-var centerLight = function() {
-  $("#s11 .circle-boy").css({
+var highlight = function(system){
+  var coords = system.getCoords();
+  $(`#s${coords[0]}${coords[1]} .circle-boy`).css({
     width: "100%",
     height: "100%",
-    "margin" : "0"
+    "margin" : 0
   });
 }
 
-var centerUnLight = function() {
-  $("#s11 .circle-boy").css({
+var unlight = function(){
+  $(`.circle-boy`).css({
     width: "75%",
     height: "75%",
     "margin" : "10%"
   });
-}
-
-var highlight = function(x, y){
-  if(x === 0 && y === 1){
-    $("#s01 .circle-boy").css({
-      width: "100%",
-      height: "100%",
-      "margin" : "0"
-    });
-    centerUnLight();
-  } else if (x === 2 && y === 1){
-    $("#s21 .circle-boy").css({
-      width: "100%",
-      height: "100%",
-      "margin" : "0"
-    });
-    centerUnLight();
-  } else if (x === 1 && y === 0){
-    $("#s10 .circle-boy").css({
-      width: "100%",
-      height: "100%",
-      "margin" : "0"
-    });
-    centerUnLight();
-  } else if (x === 1 && y === 2){
-    $("#s12 .circle-boy").css({
-      width: "100%",
-      height: "100%",
-      "margin" : "0"
-    });
-    centerUnLight();
-  } else if (x === 0 && y === 0){
-    $("#s00 .circle-boy").css({
-      width: "100%",
-      height: "100%",
-      "margin" : "0"
-    });
-    centerUnLight();
-  } else if (x === 2 && y === 0){
-    $("#s20 .circle-boy").css({
-      width: "100%",
-      height: "100%",
-      "margin" : "0"
-    });
-    centerUnLight();
-  } else if (x === 0 && y === 2){
-    $("#s02 .circle-boy").css({
-      width: "100%",
-      height: "100%",
-      "margin" : "0"
-    });
-    centerUnLight();
-  } else if (x === 2 && y === 2){
-    $("#s22 .circle-boy").css({
-      width: "100%",
-      height: "100%",
-      "margin" : "0"
-    });
-    centerUnLight();
+  $(`#s11 .circle-boy`).css({
+    width: "100%",
+    height: "100%",
+    "margin" : "0%"
+  });
   }
-}
-
-var unlight = function(x, y){
-  if(x === 0 && y === 1) {
-    $("#s01 .circle-boy").css({
-      width: "75%",
-      height: "75%",
-      "margin" : "10%"
-    });
-    centerLight();
-  } else if (x === 2 && y === 1){
-    $("#s21 .circle-boy").css({
-      width: "75%",
-      height: "75%",
-      "margin" : "10%"
-    });
-    centerLight();
-  } else if (x === 1 && y === 0){
-    $("#s10 .circle-boy").css({
-      width: "75%",
-      height: "75%",
-      "margin" : "10%"
-    });
-    centerLight();
-  } else if (x === 1 && y === 2){
-    $("#s12 .circle-boy").css({
-      width: "75%",
-      height: "75%",
-      "margin" : "10%"
-    });
-    centerLight();
-  } else if (x === 0 && y === 0){
-    $("#s00 .circle-boy").css({
-      width: "75%",
-      height: "75%",
-      "margin" : "10%"
-    });
-    centerLight();
-  } else if (x === 2 && y === 0){
-    $("#s20 .circle-boy").css({
-      width: "75%",
-      height: "75%",
-      "margin" : "10%"
-    });
-    centerLight();
-  } else if (x === 0 && y === 2){
-    $("#s02 .circle-boy").css({
-      width: "75%",
-      height: "75%",
-      "margin" : "10%"
-    });
-    centerLight();
-  } else if (x === 2 && y === 2){
-    $("#s22 .circle-boy").css({
-      width: "75%",
-      height: "75%",
-      "margin" : "10%"
-    });
-    centerLight();
-  }
-}
 
 $(document).ready(function() {
   //new is apparently a bad way of initializing objects
@@ -300,39 +176,20 @@ $(document).ready(function() {
     var keyCode = event.keyCode;
     if(!newSystem.keys.includes(keyCode)){
       //left: 37 right: 39 up: 38 down: 40
-      if(keyCode === 37){
-        newSystem.updateCoords(-1,0);
-        highlight(0, 1);
-      } else if(keyCode === 39){
-        newSystem.updateCoords(1,0);
-        highlight(2, 1);
-      }else if(keyCode === 38){
-        newSystem.updateCoords(0,-1);
-        highlight(1, 0);
-      }else if(keyCode === 40){
-        newSystem.updateCoords(0,1);
-        highlight(1, 2);
-      }
       newSystem.addKeys(keyCode);
       newSystem.updateCoords();
+      highlight(newSystem);
     }
   });
 
   $(document).keyup(function(event){
     var keyCode = event.keyCode;
+    var toRemove = 0;
     //left: 37 right: 39 up: 38 down: 40
     if(newSystem.keys.includes(keyCode)){
-      if(keyCode === 37){
-        unlight(0, 1);
-      } else if(keyCode === 39){
-        unlight(2, 1);
-      }else if(keyCode === 38){
-        unlight(1, 0);
-      }else if(keyCode === 40){
-        unlight(1, 2);
-      }
-      newSystem.removeKeys(keyCode);
+      toRemove = newSystem.removeKeys(keyCode);
       newSystem.updateCoords();
+      unlight();
     }
   });
 });
