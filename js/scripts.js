@@ -2,42 +2,37 @@
 function Data() {
   this.json = {
     timeSignature: [4, 4],
-    tempo: 100,
+    tempo: 130,
     instruments: {
       rightHand: {
-          name: 'square',
-          pack: 'oscillators'
+        name: 'square',
+        pack: 'oscillators'
       },
-      leftHand: {
-          name: 'triangle',
-          pack: 'oscillators'
-      }
     },
     notes: {
-      // Shorthand notation
       rightHand: [],
     }
   };
 }
 
-function System(){
+function System() {
   this.grid = [];
-  this.coords = [0,0];
+  this.coords = [0, 0];
   this.gridSize = 3;
   this.conductor = null;
   this.player = null;
   this.keys = [];
 }
 
-System.prototype.initializeConductor = function(){
+System.prototype.initializeConductor = function() {
   this.conductor = new BandJS();
 }
-System.prototype.reinitializeConductor = function(){
+System.prototype.reinitializeConductor = function() {
   this.conductor.audioContext.close();
   this.conductor.destroy();
 }
 
-System.prototype.staticJSON = function(){
+System.prototype.staticJSON = function() {
   this.grid[0][0] = new Data();
   this.grid[0][1] = new Data();
   this.grid[0][2] = new Data();
@@ -63,54 +58,57 @@ System.prototype.initializeSounds = function() {
   this.player = this.conductor.load(this.grid[this.coords[0]][this.coords[1]].json);
 }
 
-System.prototype.startSound = function(){
+System.prototype.startSound = function() {
   this.player.play();
   this.player.loop(true);
 }
 
-System.prototype.stopSound = function(){
+System.prototype.stopSound = function() {
   this.player.stop(true);
 }
 
-System.prototype.getcoords = function () {
+System.prototype.getCoords = function(){
   return this.coords;
-};
+}
 
 System.prototype.updateCoords = function(){
-  //left: 37 right: 39 up: 38 down: 40
-  if (this.keys.includes(37) && this.keys.includes(38)) {
-    this.coords = [0, 0];
-  } else if (this.keys.includes(38) && this.keys.includes(39)) {
-    this.coords = [2, 0];
-    console.log("top right");
-  } else if (this.keys.includes(39) && this.keys.includes(40)) {
-    this.coords = [2, 2];
-    console.log("bottom right");
-  } else if (this.keys.includes(37) && this.keys.includes(40)) {
-    this.coords = [0, 2];
-    console.log("bottom left");
-  } else if (this.keys[this.keys.length-1] === 38) {
-    this.coords = [1, 0];
-    console.log("top");
-  } else if (this.keys[this.keys.length-1] === 39) {
-    this.coords = [2, 1];
-    console.log("right");
-  } else if (this.keys[this.keys.length-1] === 40) {
-    this.coords = [1, 2];
-    console.log("bottom");
-  } else if (this.keys[this.keys.length-1] === 37) {
-    this.coords = [0, 1];
-    console.log("left");
-  } else if (this.keys.length === 0) {
-    this.coords = [1, 1];
-    console.log("center");
+  if(this.keys.includes(37) && this.keys.includes(38)){
+    this.coords = [0,0]
+  } else if(this.keys.includes(38) && this.keys.includes(39)) {
+    this.coords = [2,0]
+  } else if(this.keys.includes(39) && this.keys.includes(40)) {
+    this.coords = [2,2]
+  } else if(this.keys.includes(40) && this.keys.includes(37)) {
+    this.coords = [0,2]
+  } else if(this.keys[this.keys.length-1] === 38) {
+    this.coords = [1,0]
+  } else if(this.keys[this.keys.length-1] === 39) {
+    this.coords = [2,1]
+  } else if(this.keys[this.keys.length-1] === 40) {
+    this.coords = [1,2]
+  } else if(this.keys[this.keys.length-1] === 37) {
+    this.coords = [0,1]
+  } else if(this.keys.length === 0) {
+    this.coords = [1,1]
   }
 }
 
-System.prototype.generateArray = function(){
-  for (var i = 0; i < this.gridSize; i++){
+System.prototype.updateCoords = function(x, y) {
+  if (x === -1 && this.coords[0] > 0) {
+    this.coords[0] += x;
+  } else if (y === -1 && this.coords[1] > 0) {
+    this.coords[1] += y;
+  } else if (x === 1 && this.coords[0] < (this.gridSize - 1)) {
+    this.coords[0] += x;
+  } else if (y === 1 && this.coords[1] < (this.gridSize - 1)) {
+    this.coords[1] += y;
+  }
+}
+
+System.prototype.generateArray = function() {
+  for (var i = 0; i < this.gridSize; i++) {
     this.grid.push([]);
-    for (var n = 0; n < this.gridSize; n++){
+    for (var n = 0; n < this.gridSize; n++) {
       this.grid[i].push(`-`);
     }
   }
@@ -124,19 +122,15 @@ System.prototype.addKeys = function(key){
       this.keys.shift();
       this.keys.push(key);
     }
-    console.log(this.keys);
   }
-
-
 }
 
 System.prototype.removeKeys = function(key){
-  if(this.keys.indexOf(key) === 0) {
+  if(this.keys.indexOf(key) === 0){
     this.keys.shift();
   } else {
     this.keys.pop();
   }
-  console.log(this.keys);
 }
 
 //front-end
@@ -149,10 +143,10 @@ var generateDomGrid = function(){
   }
 }
 
-var updateDomGrid = function(coords){
-  for (var i = 0; i < 3; i++){
+var updateDomGrid = function(coords) {
+  for (var i = 0; i < 3; i++) {
     for (var n = 0; n < 3; n++) {
-      if($(`#s${i}${n}`).hasClass("active")){
+      if ($(`#s${i}${n}`).hasClass("active")) {
         $(`#s${i}${n}`).removeClass("active")
       }
     }
@@ -160,120 +154,185 @@ var updateDomGrid = function(coords){
   $(`#s${coords[0]}${coords[1]}`).addClass("active");
 }
 
-var highlight = function(key){
-  // console.log(key);
-  if(key === "left"){
+var centerLight = function() {
+  $("#s11 .circle-boy").css({
+    width: "100%",
+    height: "100%",
+    "margin" : "0"
+  });
+}
+
+var centerUnLight = function() {
+  $("#s11 .circle-boy").css({
+    width: "75%",
+    height: "75%",
+    "margin" : "10%"
+  });
+}
+
+var highlight = function(x, y){
+  if(x === 0 && y === 1){
     $("#s01 .circle-boy").css({
       width: "100%",
       height: "100%",
       "margin" : "0"
     });
-  } else if (key === "right"){
+    centerUnLight();
+  } else if (x === 2 && y === 1){
     $("#s21 .circle-boy").css({
       width: "100%",
       height: "100%",
       "margin" : "0"
     });
-  } else if (key === "up"){
+    centerUnLight();
+  } else if (x === 1 && y === 0){
     $("#s10 .circle-boy").css({
       width: "100%",
       height: "100%",
       "margin" : "0"
     });
-  } else if (key === "down"){
+    centerUnLight();
+  } else if (x === 1 && y === 2){
     $("#s12 .circle-boy").css({
       width: "100%",
       height: "100%",
       "margin" : "0"
     });
+    centerUnLight();
+  } else if (x === 0 && y === 0){
+    $("#s00 .circle-boy").css({
+      width: "100%",
+      height: "100%",
+      "margin" : "0"
+    });
+    centerUnLight();
+  } else if (x === 2 && y === 0){
+    $("#s20 .circle-boy").css({
+      width: "100%",
+      height: "100%",
+      "margin" : "0"
+    });
+    centerUnLight();
+  } else if (x === 0 && y === 2){
+    $("#s02 .circle-boy").css({
+      width: "100%",
+      height: "100%",
+      "margin" : "0"
+    });
+    centerUnLight();
+  } else if (x === 2 && y === 2){
+    $("#s22 .circle-boy").css({
+      width: "100%",
+      height: "100%",
+      "margin" : "0"
+    });
+    centerUnLight();
   }
 }
 
-var unlight = function(key){
-  if(key === "left") {
+var unlight = function(x, y){
+  if(x === 0 && y === 1) {
     $("#s01 .circle-boy").css({
-      width: "80%",
-      height: "80%",
+      width: "75%",
+      height: "75%",
       "margin" : "10%"
     });
-  } else if (key === "right"){
+    centerLight();
+  } else if (x === 2 && y === 1){
     $("#s21 .circle-boy").css({
-      width: "80%",
-      height: "80%",
+      width: "75%",
+      height: "75%",
       "margin" : "10%"
     });
-  } else if (key === "up"){
+    centerLight();
+  } else if (x === 1 && y === 0){
     $("#s10 .circle-boy").css({
-      width: "80%",
-      height: "80%",
+      width: "75%",
+      height: "75%",
       "margin" : "10%"
     });
-  } else if (key === "down"){
+    centerLight();
+  } else if (x === 1 && y === 2){
     $("#s12 .circle-boy").css({
-      width: "80%",
-      height: "80%",
+      width: "75%",
+      height: "75%",
       "margin" : "10%"
     });
+    centerLight();
+  } else if (x === 0 && y === 0){
+    $("#s00 .circle-boy").css({
+      width: "75%",
+      height: "75%",
+      "margin" : "10%"
+    });
+    centerLight();
+  } else if (x === 2 && y === 0){
+    $("#s20 .circle-boy").css({
+      width: "75%",
+      height: "75%",
+      "margin" : "10%"
+    });
+    centerLight();
+  } else if (x === 0 && y === 2){
+    $("#s02 .circle-boy").css({
+      width: "75%",
+      height: "75%",
+      "margin" : "10%"
+    });
+    centerLight();
+  } else if (x === 2 && y === 2){
+    $("#s22 .circle-boy").css({
+      width: "75%",
+      height: "75%",
+      "margin" : "10%"
+    });
+    centerLight();
   }
 }
 
-$(document).ready(function(){
+$(document).ready(function() {
   //new is apparently a bad way of initializing objects
   var newSystem = new System();
-
   newSystem.generateArray();
-  // newSystem.staticJSON();
-  // newSystem.initializeConductor();
-  // newSystem.initializeSounds();
   generateDomGrid();
 
-  $(document).keydown(function(event){
+  $(document).keydown(function(event) {
     var keyCode = event.keyCode;
     if(!newSystem.keys.includes(keyCode)){
       //left: 37 right: 39 up: 38 down: 40
       if(keyCode === 37){
         newSystem.updateCoords(-1,0);
-        highlight("left");
+        highlight(0, 1);
       } else if(keyCode === 39){
         newSystem.updateCoords(1,0);
-        highlight("right");
+        highlight(2, 1);
       }else if(keyCode === 38){
         newSystem.updateCoords(0,-1);
-        highlight("up");
+        highlight(1, 0);
       }else if(keyCode === 40){
         newSystem.updateCoords(0,1);
-        highlight("down");
+        highlight(1, 2);
       }
       newSystem.addKeys(keyCode);
       newSystem.updateCoords();
     }
-
-    //back-end
-    // newSystem.updateGrid();
-    // updateDomGrid(newSystem.coords);
-    // newSystem.stopSound();
-    // newSystem.reinitializeConductor();
-    // newSystem.initializeSounds();
-    // newSystem.startSound();
   });
 
   $(document).keyup(function(event){
     var keyCode = event.keyCode;
-
-    if(newSystem.keys.includes(keyCode)) {
-
-      //left: 37 right: 39 up: 38 down: 40
+    //left: 37 right: 39 up: 38 down: 40
+    if(newSystem.keys.includes(keyCode)){
       if(keyCode === 37){
-        unlight("left");
+        unlight(0, 1);
       } else if(keyCode === 39){
-        unlight("right");
+        unlight(2, 1);
       }else if(keyCode === 38){
-        unlight("up");
+        unlight(1, 0);
       }else if(keyCode === 40){
-        unlight("down");
+        unlight(1, 2);
       }
       newSystem.removeKeys(keyCode);
       newSystem.updateCoords();
     }
-  })
+  });
 });
