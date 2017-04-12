@@ -1,16 +1,19 @@
+body {
+  background-color: rgba(254,200,72,1);
+}
+
 .container {
   text-align: center;
 }
 
-.grid-row .grid-space{
+#circle{
   display: inline-block;
-  border: 1px solid black;
-  height: 100px;
-  width: 100px;
-}
-
-.grid-row {
-  height: 100px;
+  height: 50vh;
+  width: 50vh;
+  margin-top: 20vh;
+  border-style: solid;
+  border-width: 100px;
+  border-radius: 50%;
 }
 
 .active {
