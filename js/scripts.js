@@ -26,6 +26,7 @@ function System(){
   this.gridSize = 3;
   this.conductor = null;
   this.player = null;
+  this.keys = [];
 }
 
 System.prototype.initializeConductor = function(){
@@ -92,12 +93,34 @@ System.prototype.generateArray = function(){
   }
 }
 
+System.prototype.addKeys = function(key){
+  if(!this.keys.includes(key)){
+    if(this.keys.length < 2){
+      this.keys.push(key);
+    } else {
+      this.keys.push(key);
+      this.keys.shift();
+    }
+    console.log(this.keys);
+  }
+
+
+}
+
+System.prototype.removeKeys = function(key){
+  if(this.keys.indexOf(key) === 0) {
+    this.keys.shift();
+  } else {
+    this.keys.pop();
+  }
+}
+
 //front-end
 var generateDomGrid = function(){
   for (var i = 0; i < 3; i++){
     $(".container").append(`<div class="grid-row" id="row-${i}"></div>`);
     for (var n = 0; n < 3; n++) {
-      $(`#row-${i}`).append(`<div class="grid-space" id="${n}${i}"></div>`);
+        $(`#row-${i}`).append(`<div class="grid-space" id="s${n}${i}"><div class="circle-boy"></div></div>`);
     }
   }
 }
@@ -105,12 +128,69 @@ var generateDomGrid = function(){
 var updateDomGrid = function(coords){
   for (var i = 0; i < 3; i++){
     for (var n = 0; n < 3; n++) {
-      if($(`#${i}${n}`).hasClass("active")){
-        $(`#${i}${n}`).removeClass("active")
+      if($(`#s${i}${n}`).hasClass("active")){
+        $(`#s${i}${n}`).removeClass("active")
       }
     }
   }
-  $(`#${coords[0]}${coords[1]}`).addClass("active");
+  $(`#s${coords[0]}${coords[1]}`).addClass("active");
+}
+
+var highlight = function(key){
+  console.log(key);
+  if(key === "left"){
+    $("#s01 .circle-boy").css({
+      width: "100%",
+      height: "100%",
+      "margin" : "0"
+    });
+  } else if (key === "right"){
+    $("#s21 .circle-boy").css({
+      width: "100%",
+      height: "100%",
+      "margin" : "0"
+    });
+  } else if (key === "up"){
+    $("#s10 .circle-boy").css({
+      width: "100%",
+      height: "100%",
+      "margin" : "0"
+    });
+  } else if (key === "down"){
+    $("#s12 .circle-boy").css({
+      width: "100%",
+      height: "100%",
+      "margin" : "0"
+    });
+  }
+}
+
+var unlight = function(key){
+  if(key === "left") {
+    $("#s01 .circle-boy").css({
+      width: "80%",
+      height: "80%",
+      "margin" : "10%"
+    });
+  } else if (key === "right"){
+    $("#s21 .circle-boy").css({
+      width: "80%",
+      height: "80%",
+      "margin" : "10%"
+    });
+  } else if (key === "up"){
+    $("#s10 .circle-boy").css({
+      width: "80%",
+      height: "80%",
+      "margin" : "10%"
+    });
+  } else if (key === "down"){
+    $("#s12 .circle-boy").css({
+      width: "80%",
+      height: "80%",
+      "margin" : "10%"
+    });
+  }
 }
 
 $(document).ready(function(){
@@ -118,28 +198,56 @@ $(document).ready(function(){
   var newSystem = new System();
 
   newSystem.generateArray();
-  newSystem.staticJSON();
-  newSystem.initializeConductor();
-  newSystem.initializeSounds();
+  // newSystem.staticJSON();
+  // newSystem.initializeConductor();
+  // newSystem.initializeSounds();
   generateDomGrid();
 
   $(document).keydown(function(event){
     var keyCode = event.keyCode;
-    //left: 37 right: 39 up: 38 down: 40
-    if(keyCode === 37){
-      newSystem.updateCoords(-1,0);
-    } else if(keyCode === 39){
-      newSystem.updateCoords(1,0);
-    }else if(keyCode === 38){
-      newSystem.updateCoords(0,-1);
-    }else if(keyCode === 40){
-      newSystem.updateCoords(0,1);
+    if(!newSystem.keys.includes(keyCode)){
+      //left: 37 right: 39 up: 38 down: 40
+      if(keyCode === 37){
+        newSystem.updateCoords(-1,0);
+        highlight("left");
+      } else if(keyCode === 39){
+        newSystem.updateCoords(1,0);
+        highlight("right");
+      }else if(keyCode === 38){
+        newSystem.updateCoords(0,-1);
+        highlight("up");
+      }else if(keyCode === 40){
+        newSystem.updateCoords(0,1);
+        highlight("down");
+      }
+      newSystem.addKeys(keyCode);
     }
+
+    //back-end
     // newSystem.updateGrid();
-    updateDomGrid(newSystem.coords);
-    newSystem.stopSound();
-    newSystem.reinitializeConductor();
-    newSystem.initializeSounds();
-    newSystem.startSound();
+    // updateDomGrid(newSystem.coords);
+    // newSystem.stopSound();
+    // newSystem.reinitializeConductor();
+    // newSystem.initializeSounds();
+    // newSystem.startSound();
   });
+
+  $(document).keyup(function(event){
+    var keyCode = event.keyCode;
+
+    if(newSystem.keys.includes(keyCode)) {
+
+      //left: 37 right: 39 up: 38 down: 40
+      if(keyCode === 37){
+        unlight("left");
+      } else if(keyCode === 39){
+        unlight("right");
+      }else if(keyCode === 38){
+        unlight("up");
+      }else if(keyCode === 40){
+        unlight("down");
+      }
+      newSystem.removeKeys(keyCode);
+    }
+  })
 });
