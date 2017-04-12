@@ -5,8 +5,8 @@ function Data() {
     tempo: 130,
     instruments: {
       rightHand: {
-          name: 'square',
-          pack: 'oscillators'
+        name: 'square',
+        pack: 'oscillators'
       },
     },
     notes: {
@@ -16,23 +16,23 @@ function Data() {
   };
 }
 
-function System(){
+function System() {
   this.grid = [];
-  this.coords = [0,0];
+  this.coords = [0, 0];
   this.gridSize = 3;
   this.conductor = null;
   this.player = null;
 }
 
-System.prototype.initializeConductor = function(){
+System.prototype.initializeConductor = function() {
   this.conductor = new BandJS();
 }
-System.prototype.reinitializeConductor = function(){
+System.prototype.reinitializeConductor = function() {
   this.conductor.audioContext.close();
   this.conductor.destroy();
 }
 
-System.prototype.staticJSON = function(){
+System.prototype.staticJSON = function() {
   this.grid[0][0] = new Data();
   this.grid[0][1] = new Data();
   this.grid[0][2] = new Data();
@@ -58,50 +58,50 @@ System.prototype.initializeSounds = function() {
   this.player = this.conductor.load(this.grid[this.coords[0]][this.coords[1]].json);
 }
 
-System.prototype.startSound = function(){
+System.prototype.startSound = function() {
   this.player.play();
   this.player.loop(true);
 }
 
-System.prototype.stopSound = function(){
+System.prototype.stopSound = function() {
   this.player.stop(true);
 }
 
-System.prototype.updateCoords = function(x,y){
-  if(x === -1 && this.coords[0] > 0){
+System.prototype.updateCoords = function(x, y) {
+  if (x === -1 && this.coords[0] > 0) {
     this.coords[0] += x;
-  } else if(y === -1 && this.coords[1] > 0) {
+  } else if (y === -1 && this.coords[1] > 0) {
     this.coords[1] += y;
-  } else if(x === 1 && this.coords[0] < (this.gridSize-1)) {
+  } else if (x === 1 && this.coords[0] < (this.gridSize - 1)) {
     this.coords[0] += x;
-  } else if(y === 1 && this.coords[1] < (this.gridSize-1)) {
+  } else if (y === 1 && this.coords[1] < (this.gridSize - 1)) {
     this.coords[1] += y;
   }
 }
 
-System.prototype.generateArray = function(){
-  for (var i = 0; i < this.gridSize; i++){
+System.prototype.generateArray = function() {
+  for (var i = 0; i < this.gridSize; i++) {
     this.grid.push([]);
-    for (var n = 0; n < this.gridSize; n++){
+    for (var n = 0; n < this.gridSize; n++) {
       this.grid[i].push(`-`);
     }
   }
 }
 
 //front-end
-var generateDomGrid = function(){
-  for (var i = 0; i < 3; i++){
+var generateDomGrid = function() {
+  for (var i = 0; i < 3; i++) {
     $(".wrapper").append(`<div class="grid-row" id="row-${i}"></div>`);
     for (var n = 0; n < 3; n++) {
-        $(`#row-${i}`).append(`<div class="grid-space" id="s${n}${i}"></div>`);
+      $(`#row-${i}`).append(`<div class="grid-space" id="s${n}${i}"></div>`);
     }
   }
 }
 
-var updateDomGrid = function(coords){
-  for (var i = 0; i < 3; i++){
+var updateDomGrid = function(coords) {
+  for (var i = 0; i < 3; i++) {
     for (var n = 0; n < 3; n++) {
-      if($(`#s${i}${n}`).hasClass("active")){
+      if ($(`#s${i}${n}`).hasClass("active")) {
         $(`#s${i}${n}`).removeClass("active")
       }
     }
@@ -111,37 +111,41 @@ var updateDomGrid = function(coords){
 
 var moveLR = function(direction) {
   var displacement = $(`#s0${1}`).css("width");
-  displacement = direction * parseInt(displacement.replace(/px/, ""),10);
+  displacement = direction * parseInt(displacement.replace(/px/, ""), 10);
   console.log(displacement);
   var current = 0;
   var total = 0;
-  for (var i = 0; i < 3; i++){
+  for (var i = 0; i < 3; i++) {
     for (var n = 0; n < 3; n++) {
-      current = parseInt(($(`#s${i}${n}`).css("left")).replace(/px/, ""),10);
-      total = current+displacement;
+      current = parseInt(($(`#s${i}${n}`).css("left")).replace(/px/, ""), 10);
+      total = current + displacement;
       // $(`#s${i}${n}`).css("left", total);
-      $(`#s${i}${n}`).animate({left:total}, 400);
+      $(`#s${i}${n}`).animate({
+        left: total
+      }, 400);
     }
   }
 }
 
 var moveUD = function(direction) {
   var displacement = $(`#s0${1}`).css("height");
-  displacement = direction * parseInt(displacement.replace(/px/, ""),10);
+  displacement = direction * parseInt(displacement.replace(/px/, ""), 10);
   console.log(displacement);
   var current = 0;
   var total = 0;
-  for (var i = 0; i < 3; i++){
+  for (var i = 0; i < 3; i++) {
     for (var n = 0; n < 3; n++) {
-      current = parseInt(($(`#s${i}${n}`).css("top")).replace(/px/, ""),10);
-      total = current+displacement;
+      current = parseInt(($(`#s${i}${n}`).css("top")).replace(/px/, ""), 10);
+      total = current + displacement;
       // $(`#s${i}${n}`).css("top", total);
-      $(`#s${i}${n}`).animate({top:total}, 400);
+      $(`#s${i}${n}`).animate({
+        top: total
+      }, 400);
     }
   }
 }
 
-$(document).ready(function(){
+$(document).ready(function() {
   //new is apparently a bad way of initializing objects
   var newSystem = new System();
 
@@ -151,20 +155,20 @@ $(document).ready(function(){
   newSystem.initializeSounds();
   generateDomGrid();
 
-  $(document).keydown(function(event){
+  $(document).keydown(function(event) {
     var keyCode = event.keyCode;
     //left: 37 right: 39 up: 38 down: 40
-    if(keyCode === 37){
-      newSystem.updateCoords(-1,0);
+    if (keyCode === 37) {
+      newSystem.updateCoords(-1, 0);
       moveLR(1);
-    } else if(keyCode === 39){
-      newSystem.updateCoords(1,0);
+    } else if (keyCode === 39) {
+      newSystem.updateCoords(1, 0);
       moveLR(-1);
-    }else if(keyCode === 38){
-      newSystem.updateCoords(0,-1);
+    } else if (keyCode === 38) {
+      newSystem.updateCoords(0, -1);
       moveUD(1);
-    }else if(keyCode === 40){
-      newSystem.updateCoords(0,1);
+    } else if (keyCode === 40) {
+      newSystem.updateCoords(0, 1);
       moveUD(-1);
     }
 
