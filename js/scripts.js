@@ -132,43 +132,9 @@ var updateDomGrid = function(coords){
   $(`#s${coords[0]}${coords[1]}`).addClass("active");
 }
 
-// var moveLR = function(direction) {
-//   var displacement = $(`#s0${1}`).css("width");
-//   displacement = direction * parseInt(displacement.replace(/px/, ""),10);
-//   console.log(displacement);
-//   var current = 0;
-//   var total = 0;
-//   for (var i = 0; i < 3; i++){
-//     for (var n = 0; n < 3; n++) {
-//       current = parseInt(($(`#s${i}${n}`).css("left")).replace(/px/, ""),10);
-//       total = current+displacement;
-//       // $(`#s${i}${n}`).css("left", total);
-//       $(`#s${i}${n}`).animate({left:total}, 400);
-//     }
-//   }
-// }
-//
-// var moveUD = function(direction) {
-//   var displacement = $(`#s0${1}`).css("height");
-//   displacement = direction * parseInt(displacement.replace(/px/, ""),10);
-//   console.log(displacement);
-//   var current = 0;
-//   var total = 0;
-//   for (var i = 0; i < 3; i++){
-//     for (var n = 0; n < 3; n++) {
-//       current = parseInt(($(`#s${i}${n}`).css("top")).replace(/px/, ""),10);
-//       total = current+displacement;
-//       // $(`#s${i}${n}`).css("top", total);
-//       $(`#s${i}${n}`).animate({top:total}, 400);
-//     }
-//   }
-// }
-
-
 var highlight = function(key){
   console.log(key);
   if(key === "left"){
-    $("#s01 .circle-boy").addClass("active");
     $("#s01 .circle-boy").css({
       width: "100%",
       height: "100%",
