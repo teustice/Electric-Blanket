@@ -131,95 +131,139 @@ var updateDomGrid = function(coords){
   }
   $(`#s${coords[0]}${coords[1]}`).addClass("active");
 }
+var centerLight = function() {
+  $("#s11 .circle-boy").css({
+    width: "100%",
+    height: "100%",
+    "margin" : "0"
+  });
+}
 
-// var moveLR = function(direction) {
-//   var displacement = $(`#s0${1}`).css("width");
-//   displacement = direction * parseInt(displacement.replace(/px/, ""),10);
-//   console.log(displacement);
-//   var current = 0;
-//   var total = 0;
-//   for (var i = 0; i < 3; i++){
-//     for (var n = 0; n < 3; n++) {
-//       current = parseInt(($(`#s${i}${n}`).css("left")).replace(/px/, ""),10);
-//       total = current+displacement;
-//       // $(`#s${i}${n}`).css("left", total);
-//       $(`#s${i}${n}`).animate({left:total}, 400);
-//     }
-//   }
-// }
-//
-// var moveUD = function(direction) {
-//   var displacement = $(`#s0${1}`).css("height");
-//   displacement = direction * parseInt(displacement.replace(/px/, ""),10);
-//   console.log(displacement);
-//   var current = 0;
-//   var total = 0;
-//   for (var i = 0; i < 3; i++){
-//     for (var n = 0; n < 3; n++) {
-//       current = parseInt(($(`#s${i}${n}`).css("top")).replace(/px/, ""),10);
-//       total = current+displacement;
-//       // $(`#s${i}${n}`).css("top", total);
-//       $(`#s${i}${n}`).animate({top:total}, 400);
-//     }
-//   }
-// }
+var centerUnLight = function() {
+  $("#s11 .circle-boy").css({
+    width: "75%",
+    height: "75%",
+    "margin" : "10%"
+  });
+}
 
-
-var highlight = function(key){
-  console.log(key);
-  if(key === "left"){
-    $("#s01 .circle-boy").addClass("active");
+var highlight = function(x, y){
+  if(x === 0 && y === 1){
     $("#s01 .circle-boy").css({
       width: "100%",
       height: "100%",
       "margin" : "0"
     });
-  } else if (key === "right"){
+    centerUnLight();
+  } else if (x === 2 && y === 1){
     $("#s21 .circle-boy").css({
       width: "100%",
       height: "100%",
       "margin" : "0"
     });
-  } else if (key === "up"){
+    centerUnLight();
+  } else if (x === 1 && y === 0){
     $("#s10 .circle-boy").css({
       width: "100%",
       height: "100%",
       "margin" : "0"
     });
-  } else if (key === "down"){
+    centerUnLight();
+  } else if (x === 1 && y === 2){
     $("#s12 .circle-boy").css({
       width: "100%",
       height: "100%",
       "margin" : "0"
     });
+    centerUnLight();
+  } else if (x === 0 && y === 0){
+    $("#s00 .circle-boy").css({
+      width: "100%",
+      height: "100%",
+      "margin" : "0"
+    });
+    centerUnLight();
+  } else if (x === 2 && y === 0){
+    $("#s20 .circle-boy").css({
+      width: "100%",
+      height: "100%",
+      "margin" : "0"
+    });
+    centerUnLight();
+  } else if (x === 0 && y === 2){
+    $("#s02 .circle-boy").css({
+      width: "100%",
+      height: "100%",
+      "margin" : "0"
+    });
+    centerUnLight();
+  } else if (x === 2 && y === 2){
+    $("#s22 .circle-boy").css({
+      width: "100%",
+      height: "100%",
+      "margin" : "0"
+    });
+    centerUnLight();
   }
 }
 
-var unlight = function(key){
-  if(key === "left") {
+var unlight = function(x, y){
+  if(x === 0 && y === 1) {
     $("#s01 .circle-boy").css({
-      width: "80%",
-      height: "80%",
+      width: "75%",
+      height: "75%",
       "margin" : "10%"
     });
-  } else if (key === "right"){
+    centerLight();
+  } else if (x === 2 && y === 1){
     $("#s21 .circle-boy").css({
-      width: "80%",
-      height: "80%",
+      width: "75%",
+      height: "75%",
       "margin" : "10%"
     });
-  } else if (key === "up"){
+    centerLight();
+  } else if (x === 1 && y === 0){
     $("#s10 .circle-boy").css({
-      width: "80%",
-      height: "80%",
+      width: "75%",
+      height: "75%",
       "margin" : "10%"
     });
-  } else if (key === "down"){
+    centerLight();
+  } else if (x === 1 && y === 2){
     $("#s12 .circle-boy").css({
-      width: "80%",
-      height: "80%",
+      width: "75%",
+      height: "75%",
       "margin" : "10%"
     });
+    centerLight();
+  } else if (x === 0 && y === 0){
+    $("#s00 .circle-boy").css({
+      width: "75%",
+      height: "75%",
+      "margin" : "10%"
+    });
+    centerLight();
+  } else if (x === 2 && y === 0){
+    $("#s20 .circle-boy").css({
+      width: "75%",
+      height: "75%",
+      "margin" : "10%"
+    });
+    centerLight();
+  } else if (x === 0 && y === 2){
+    $("#s02 .circle-boy").css({
+      width: "75%",
+      height: "75%",
+      "margin" : "10%"
+    });
+    centerLight();
+  } else if (x === 2 && y === 2){
+    $("#s22 .circle-boy").css({
+      width: "75%",
+      height: "75%",
+      "margin" : "10%"
+    });
+    centerLight();
   }
 }
 
@@ -239,16 +283,16 @@ $(document).ready(function(){
       //left: 37 right: 39 up: 38 down: 40
       if(keyCode === 37){
         newSystem.updateCoords(-1,0);
-        highlight("left");
+        highlight(0, 1);
       } else if(keyCode === 39){
         newSystem.updateCoords(1,0);
-        highlight("right");
+        highlight(2, 1);
       }else if(keyCode === 38){
         newSystem.updateCoords(0,-1);
-        highlight("up");
+        highlight(1, 0);
       }else if(keyCode === 40){
         newSystem.updateCoords(0,1);
-        highlight("down");
+        highlight(1, 2);
       }
     }
 
@@ -267,13 +311,13 @@ $(document).ready(function(){
     var keys = [];
     //left: 37 right: 39 up: 38 down: 40
     if(keyCode === 37){
-      unlight("left");
+      unlight(0, 1);
     } else if(keyCode === 39){
-      unlight("right");
+      unlight(2, 1);
     }else if(keyCode === 38){
-      unlight("up");
+      unlight(1, 0);
     }else if(keyCode === 40){
-      unlight("down");
+      unlight(1, 2);
     }
   })
 });
