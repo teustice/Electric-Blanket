@@ -26,35 +26,25 @@ function System() {
 }
 
 System.prototype.initialize = function() {
-  this.generateArray();
+  this.generateDataGrid();
   this.initializeConductor();
-  this.staticJSON();
   this.loadSounds();
 }
 
-System.prototype.generateArray = function() {
+System.prototype.generateDataGrid = function(){
   for (var i = 0; i < this.gridSize; i++) {
     this.grid.push([]);
-    for (var n = 0; n < this.gridSize; n++) {
-      this.grid[i].push(`-`);
-    }
   }
-}
 
-System.prototype.initializeConductor = function() {
-  this.conductor = new BandJS();
-}
-
-System.prototype.staticJSON = function() {
-  this.grid[0][0] = new Data("rgb(234,120,98)");
-  this.grid[0][1] = new Data(" rgb(254,240,145) ");
-  this.grid[0][2] = new Data("rgb(53,209,133)");
-  this.grid[1][0] = new Data("rgb(246,86,71)");
-  this.grid[1][1] = new Data("rgb(246,246,246)");
-  this.grid[1][2] = new Data("rgb(86,185,199)");
-  this.grid[2][0] = new Data("rgb(214,105,137)");
-  this.grid[2][1] = new Data("rgb(105,96,160)");
-  this.grid[2][2] = new Data("rgb(83,129,217)");
+  this.grid[0].push(new Data("rgb(234,120,98)"));
+  this.grid[0].push(new Data(" rgb(254,240,145) "));
+  this.grid[0].push(new Data("rgb(53,209,133)"));
+  this.grid[1].push(new Data("rgb(246,86,71)"));
+  this.grid[1].push(new Data("rgb(246,246,246)"));
+  this.grid[1].push(new Data("rgb(86,185,199)"));
+  this.grid[2].push(new Data("rgb(214,105,137)"));
+  this.grid[2].push(new Data("rgb(105,96,160)"));
+  this.grid[2].push(new Data("rgb(83,129,217)"));
 
   this.grid[0][0].json.notes.rightHand = ['sixteenth|B2|tie', 'sixteenth|D3|tie', 'sixteenth|G3|tie'];
   this.grid[0][1].json.notes.rightHand = ['sixteenth|B2|tie', 'sixteenth|E3|tie', 'sixteenth|G3|tie'];
@@ -65,6 +55,10 @@ System.prototype.staticJSON = function() {
   this.grid[2][0].json.notes.rightHand = ['sixteenth|B2|tie', 'sixteenth|D3|tie', 'sixteenth|F3|tie'];
   this.grid[2][1].json.notes.rightHand = ['sixteenth|C3|tie', 'sixteenth|F3|tie', 'sixteenth|A3|tie'];
   this.grid[2][2].json.notes.rightHand = ['sixteenth|B2|tie', 'sixteenth|D3|tie', 'sixteenth|F3|tie'];
+}
+
+System.prototype.initializeConductor = function() {
+  this.conductor = new BandJS();
 }
 
 System.prototype.updateSound = function(){
