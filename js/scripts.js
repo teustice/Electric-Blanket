@@ -149,24 +149,20 @@ var updateDomGrid = function(coords) {
 var highlight = function(system){
   var coords = system.getCoords();
   var color = system.grid[coords[0]][coords[1]].color;
+
   $("body, .circle-boy").css({
-    "background-color": color,
-    transition: "background-color .4s ease-in-out"
+    // "background-color": color,
+    // transition: "background-color .4s ease-in-out"
   })
   $(`#s${coords[0]}${coords[1]} .circle-boy`).css({
-    "background-color": `${system.grid[1][1].color}`,
+    // "background-color": `${system.grid[coords[0]][coords[1]].color}`,
     width: "100%",
     height: "100%",
-    "box-shadow": `inset 5px 5px 20px -3px black`,
-    transition: "box-shadow .2s ease-in-out",
-    "margin" : 0,
+    "margin" : 0
   });
 }
-
-var clearInstructions = function(){
-  $("#instructions").hide();
-  return false;
-}
+// "box-shadow": `inset 5px 5px 20px -3px black`,
+// transition: "box-shadow .2s ease-in-out",
 
 var resetHighlight = function(system){
   var coords = system.getCoords();
@@ -174,7 +170,7 @@ var resetHighlight = function(system){
     width: "60%",
     height: "60%",
     "margin" : "20%",
-    "box-shadow": "inset 0 0 0 0"
+    // "box-shadow": "inset 0 0 0 0"
   });
   if(coords[0] === 1 && coords[1] === 1) {
     $(`#s11 .circle-boy`).css({
@@ -183,6 +179,11 @@ var resetHighlight = function(system){
       "margin" : "0%"
     });
   }
+}
+
+var clearInstructions = function(){
+  $("#instructions").hide();
+  return false;
 }
 
 $(document).ready(function() {
