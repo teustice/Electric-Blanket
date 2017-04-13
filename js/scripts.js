@@ -3,7 +3,7 @@ function Data(color) {
   this.color = color;
   this.json = {
     timeSignature: [4, 4],
-    tempo: 100,
+    tempo: 130,
     instruments: {
       rightHand: {
         name: 'triangle',
@@ -47,7 +47,7 @@ System.prototype.staticJSON = function() {
 
   this.grid[0][0].json.notes.rightHand = ['tripletEighth|A2|tie', 'tripletEighth|C3|tie', 'tripletEighth|E3|tie', 'tripletEighth|C3|tie', 'tripletEighth|A2|tie', 'tripletEighth|C3|tie', 'tripletEighth|E3|tie', 'tripletEighth|rest|tie',
   'tripletEighth|E2|tie', 'tripletEighth|C3|tie', 'tripletEighth|A3|tie', 'tripletEighth|C3|tie', 'tripletEighth|A3|tie', 'tripletEighth|C3|tie', 'tripletEighth|E3|tie', 'tripletEighth|rest|tie'];
-  this.grid[0][1].json.notes.rightHand = ['tripletEighth|G2|tie', 'tripletEighth|B3|tie', 'tripletEighth|D3|tie', 'tripletEighth|B3|tie', 'tripletEighth|G2|tie', 'tripletEighth|B3|tie', 'tripletEighth|D3|tie', 'tripletEighth|rest|tie',
+  this.grid[0][1].json.notes.rightHand = ['tripletEighth|B2|tie', 'tripletEighth|D3|tie', 'tripletEighth|B3|tie', 'tripletEighth|G3|tie', 'tripletEighth|D4|tie', 'tripletEighth|B3|tie', 'tripletEighth|G3|tie', 'tripletEighth|rest|tie',
   'tripletEighth|B3|tie', 'tripletEighth|B3|tie', 'tripletEighth|D3|tie', 'tripletEighth|B3|tie', 'tripletEighth|G2|tie', 'tripletEighth|G2|tie', 'tripletEighth|D3|tie', 'tripletEighth|rest|tie'];
   this.grid[0][2].json.notes.rightHand = ['tripletEighth|C4|tie', 'tripletEighth|E4|tie', 'tripletEighth|G4|tie', 'tripletEighth|E4|tie', 'tripletEighth|C4|tie', 'tripletEighth|E4|tie', 'tripletEighth|G4|tie', 'tripletEighth|rest|tie',
   'tripletEighth|E4|tie', 'tripletEighth|E4|tie', 'tripletEighth|G4|tie', 'tripletEighth|E4|tie', 'tripletEighth|C4|tie', 'tripletEighth|C4|tie', 'tripletEighth|G4|tie', 'tripletEighth|rest|tie'];
@@ -55,11 +55,11 @@ System.prototype.staticJSON = function() {
   'tripletEighth|A3|tie', 'tripletEighth|A3|tie', 'tripletEighth|C4|tie', 'tripletEighth|A3|tie', 'tripletEighth|F3|tie', 'tripletEighth|F3|tie', 'tripletEighth|C4|tie', 'tripletEighth|rest|tie'];
   this.grid[1][1].json.notes.rightHand = ['tripletEighth|C3|tie', 'tripletEighth|E3|tie', 'tripletEighth|C4|tie', 'tripletEighth|G3|tie', 'tripletEighth|E4|tie', 'tripletEighth|C4|tie', 'tripletEighth|G3|tie', 'tripletEighth|rest|tie',
   'tripletEighth|E3|tie', 'tripletEighth|E3|tie', 'tripletEighth|G3|tie', 'tripletEighth|E3|tie', 'tripletEighth|C3|tie', 'tripletEighth|C3|tie', 'tripletEighth|G3|tie', 'tripletEighth|rest|tie'];
-  this.grid[1][2].json.notes.rightHand = ['tripletEighth|E3|tie', 'tripletEighth|G3|tie', 'tripletEighth|B3|tie', 'tripletEighth|G3|tie', 'tripletEighth|E3|tie', 'tripletEighth|G3|tie', 'tripletEighth|B3|tie', 'tripletEighth|rest|tie',
+  this.grid[1][2].json.notes.rightHand = ['tripletEighth|G2|tie', 'tripletEighth|C3|tie', 'tripletEighth|G3|tie', 'tripletEighth|E3|tie', 'tripletEighth|C4|tie', 'tripletEighth|G3|tie', 'tripletEighth|E3|tie', 'tripletEighth|rest|tie',
   'tripletEighth|G3|tie', 'tripletEighth|G3|tie', 'tripletEighth|B3|tie', 'tripletEighth|G3|tie', 'tripletEighth|E3|tie', 'tripletEighth|E3|tie', 'tripletEighth|B3|tie', 'tripletEighth|rest|tie'];
   this.grid[2][0].json.notes.rightHand = ['tripletEighth|C2|tie', 'tripletEighth|E2|tie', 'tripletEighth|G2|tie', 'tripletEighth|E2|tie', 'tripletEighth|C2|tie', 'tripletEighth|E2|tie', 'tripletEighth|G2|tie', 'tripletEighth|rest|tie',
   'tripletEighth|E2|tie', 'tripletEighth|E2|tie', 'tripletEighth|G2|tie', 'tripletEighth|E2|tie', 'tripletEighth|C2|tie', 'tripletEighth|C2|tie', 'tripletEighth|G2|tie', 'tripletEighth|rest|tie'];
-  this.grid[2][1].json.notes.rightHand = ['tripletEighth|D3|tie', 'tripletEighth|F3|tie', 'tripletEighth|A3|tie', 'tripletEighth|F3|tie', 'tripletEighth|D3|tie', 'tripletEighth|F3|tie', 'tripletEighth|A3|tie', 'tripletEighth|rest|tie',
+  this.grid[2][1].json.notes.rightHand = ['tripletEighth|C3|tie', 'tripletEighth|F3|tie', 'tripletEighth|C4|tie', 'tripletEighth|A3|tie', 'tripletEighth|F4|tie', 'tripletEighth|C4|tie', 'tripletEighth|A3|tie', 'tripletEighth|rest|tie',
   'tripletEighth|F3|tie', 'tripletEighth|F3|tie', 'tripletEighth|A3|tie', 'tripletEighth|F3|tie', 'tripletEighth|D3|tie', 'tripletEighth|D3|tie', 'tripletEighth|A3|tie', 'tripletEighth|rest|tie'];
   this.grid[2][2].json.notes.rightHand = ['tripletEighth|B2|tie', 'tripletEighth|D3|tie', 'tripletEighth|F3|tie', 'tripletEighth|D3|tie', 'tripletEighth|B2|tie', 'tripletEighth|D3|tie', 'tripletEighth|F3|tie', 'tripletEighth|rest|tie',
   'tripletEighth|D3|tie', 'tripletEighth|D3|tie', 'tripletEighth|F3|tie', 'tripletEighth|D3|tie', 'tripletEighth|B2|tie', 'tripletEighth|B2|tie', 'tripletEighth|F3|tie', 'tripletEighth|rest|tie'];
