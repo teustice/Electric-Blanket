@@ -53,7 +53,7 @@ System.prototype.staticJSON = function() {
   'tripletEighth|E4|tie', 'tripletEighth|E4|tie', 'tripletEighth|G4|tie', 'tripletEighth|E4|tie', 'tripletEighth|C4|tie', 'tripletEighth|C4|tie', 'tripletEighth|G4|tie', 'tripletEighth|rest|tie'];
   this.grid[1][0].json.notes.rightHand = ['tripletEighth|F3|tie', 'tripletEighth|A3|tie', 'tripletEighth|C4|tie', 'tripletEighth|A3|tie', 'tripletEighth|F3|tie', 'tripletEighth|A3|tie', 'tripletEighth|C4|tie', 'tripletEighth|rest|tie',
   'tripletEighth|A3|tie', 'tripletEighth|A3|tie', 'tripletEighth|C4|tie', 'tripletEighth|A3|tie', 'tripletEighth|F3|tie', 'tripletEighth|F3|tie', 'tripletEighth|C4|tie', 'tripletEighth|rest|tie'];
-  this.grid[1][1].json.notes.rightHand = ['tripletEighth|C3|tie', 'tripletEighth|E3|tie', 'tripletEighth|G3|tie', 'tripletEighth|E3|tie', 'tripletEighth|C3|tie', 'tripletEighth|E3|tie', 'tripletEighth|G3|tie', 'tripletEighth|rest|tie',
+  this.grid[1][1].json.notes.rightHand = ['tripletEighth|C3|tie', 'tripletEighth|E3|tie', 'tripletEighth|C4|tie', 'tripletEighth|G3|tie', 'tripletEighth|E4|tie', 'tripletEighth|C4|tie', 'tripletEighth|G3|tie', 'tripletEighth|rest|tie',
   'tripletEighth|E3|tie', 'tripletEighth|E3|tie', 'tripletEighth|G3|tie', 'tripletEighth|E3|tie', 'tripletEighth|C3|tie', 'tripletEighth|C3|tie', 'tripletEighth|G3|tie', 'tripletEighth|rest|tie'];
   this.grid[1][2].json.notes.rightHand = ['tripletEighth|E3|tie', 'tripletEighth|G3|tie', 'tripletEighth|B3|tie', 'tripletEighth|G3|tie', 'tripletEighth|E3|tie', 'tripletEighth|G3|tie', 'tripletEighth|B3|tie', 'tripletEighth|rest|tie',
   'tripletEighth|G3|tie', 'tripletEighth|G3|tie', 'tripletEighth|B3|tie', 'tripletEighth|G3|tie', 'tripletEighth|E3|tie', 'tripletEighth|E3|tie', 'tripletEighth|B3|tie', 'tripletEighth|rest|tie'];
@@ -217,6 +217,8 @@ $(document).ready(function() {
       newSystem.reinitializeConductor();
       newSystem.loadSounds();
       newSystem.startSound();
+      newSystem.conductor.setMasterVolume(10);
+
     }
   });
 
@@ -233,6 +235,7 @@ $(document).ready(function() {
       newSystem.reinitializeConductor();
       newSystem.loadSounds();
       newSystem.startSound();
+      newSystem.conductor.setMasterVolume(10);
     }
   });
 });
