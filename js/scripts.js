@@ -37,7 +37,7 @@ System.prototype.generateDataGrid = function(){
   }
 
   this.grid[0].push(new Data("rgb(234,120,98)"));
-  this.grid[0].push(new Data(" rgb(254,240,145) "));
+  this.grid[0].push(new Data("rgb(254,240,145) "));
   this.grid[0].push(new Data("rgb(53,209,133)"));
   this.grid[1].push(new Data("rgb(246,86,71)"));
   this.grid[1].push(new Data("rgb(246,246,246)"));
@@ -104,6 +104,7 @@ System.prototype.update = function(keyCode, eventType) {
   this.updateCoords();
   this.updateSound();
 }
+
 System.prototype.addKeys = function(key){
   this.keys.push(key);
   if(this.keys.length > 2){
@@ -157,9 +158,8 @@ var generateDomGrid = function(){
   $(".container").append(`<div id="instructions"><h1>arrow keys</h1><h1>kick it</h1></div>`);
 }
 
-var updateHighlight = function(system){
-  var coords = system.getCoords();
-  $(`.circle-boy`).css({
+var updateHighlight = function(coords){
+    $(`.circle-boy`).css({
     width: "60%",
     height: "60%",
     "margin" : "20%",
@@ -196,7 +196,7 @@ $(document).ready(function() {
     var keyCode = event.keyCode;
     if(!newSystem.keys.includes(keyCode)){
       newSystem.update(keyCode, event.type);
-      updateHighlight(newSystem);
+      updateHighlight(newSystem.getCoords());
     }
   });
 
@@ -204,7 +204,7 @@ $(document).ready(function() {
     var keyCode = event.keyCode;
     if(newSystem.keys.includes(keyCode)){
       newSystem.update(keyCode, event.type);
-      updateHighlight(newSystem);
+      updateHighlight(newSystem.getCoords());
     }
   });
 });
