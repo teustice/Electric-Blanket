@@ -39,7 +39,7 @@ System.prototype.staticJSON = function() {
   this.grid[0][1] = new Data(" rgb(254,240,145) ");
   this.grid[0][2] = new Data("rgb(53,209,133)");
   this.grid[1][0] = new Data("rgb(246,86,71)");
-  this.grid[1][1] = new Data("rgba(240,240,240,1)");
+  this.grid[1][1] = new Data("rgb(246,246,246)");
   this.grid[1][2] = new Data("rgb(86,185,199)");
   this.grid[2][0] = new Data("rgb(214,105,137)");
   this.grid[2][1] = new Data("rgb(105,96,160)");
@@ -133,6 +133,10 @@ var generateDomGrid = function(){
         $(`#row-${i}`).append(`<div class="grid-space" id="s${n}${i}"><div class="circle-boy"></div></div>`);
     }
   }
+  $(".container").append(`<div id="instructions">
+    <h1>arrow keys</h1>
+    <h1>kick it</h1>
+  </div>`);
 }
 
 var updateDomGrid = function(coords) {
@@ -149,20 +153,15 @@ var updateDomGrid = function(coords) {
 var highlight = function(system){
   var coords = system.getCoords();
   var color = system.grid[coords[0]][coords[1]].color;
-
-  $("body, .circle-boy").css({
-    // "background-color": color,
-    // transition: "background-color .4s ease-in-out"
-  })
   $(`#s${coords[0]}${coords[1]} .circle-boy`).css({
-    // "background-color": `${system.grid[coords[0]][coords[1]].color}`,
-    width: "100%",
-    height: "100%",
-    "margin" : 0
+    width: "90%",
+    height: "90%",
+    "box-shadow": "5px 5px 20px -3px grey",
+    transition: "box-shadow .2s ease-in-out",
+    "margin" : "5%"
   });
 }
-// "box-shadow": `inset 5px 5px 20px -3px black`,
-// transition: "box-shadow .2s ease-in-out",
+
 
 var resetHighlight = function(system){
   var coords = system.getCoords();
@@ -170,7 +169,7 @@ var resetHighlight = function(system){
     width: "60%",
     height: "60%",
     "margin" : "20%",
-    // "box-shadow": "inset 0 0 0 0"
+    "box-shadow": "0 0 0 0"
   });
   if(coords[0] === 1 && coords[1] === 1) {
     $(`#s11 .circle-boy`).css({
@@ -181,14 +180,20 @@ var resetHighlight = function(system){
   }
 }
 
-var clearInstructions = function(){
-  $("#instructions").hide();
+var clearInitial = function(){
+  $("#instructions h1").css({
+    "text-shadow": "rgb(246,246,246) 0 0 0",
+    transition: "text-shadow .3s ease-in-out",
+  });
+  $(".circle-boy").css({
+    "box-shadow": "0 0 0 0",
+  })
   return false;
 }
 
 $(document).ready(function() {
   var newSystem = new System();
-  var instructions = true;
+  var initial = true;
   newSystem.generateArray();
   newSystem.initializeConductor();
   newSystem.staticJSON();
@@ -196,7 +201,7 @@ $(document).ready(function() {
   generateDomGrid();
 
   $(document).keydown(function(event) {
-    if(instructions){instructions = clearInstructions(instructions);}
+    if(initial){initial = clearInitial();}
     var keyCode = event.keyCode;
     if(!newSystem.keys.includes(keyCode)){
       //left: 37 right: 39 up: 38 down: 40
