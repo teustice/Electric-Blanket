@@ -3,10 +3,10 @@ function Data(color) {
   this.color = color;
   this.json = {
     timeSignature: [4, 4],
-    tempo: 100,
+    tempo: 120,
     instruments: {
       rightHand: {
-        name: 'square',
+        name: 'triangle',
         pack: 'oscillators'
       },
     },
@@ -45,15 +45,24 @@ System.prototype.staticJSON = function() {
   this.grid[2][1] = new Data("rgb(105,96,160)");
   this.grid[2][2] = new Data("rgb(83,129,217)");
 
-  this.grid[0][0].json.notes.rightHand = ['sixteenth|B2|tie', 'sixteenth|D3|tie', 'sixteenth|G3|tie'];
-  this.grid[0][1].json.notes.rightHand = ['sixteenth|B2|tie', 'sixteenth|E3|tie', 'sixteenth|G3|tie'];
-  this.grid[0][2].json.notes.rightHand = ['sixteenth|A2|tie', 'sixteenth|D3|tie', 'sixteenth|F3|tie'];
-  this.grid[1][0].json.notes.rightHand = ['sixteenth|G3|tie', 'sixteenth|B3|tie', 'sixteenth|D4|tie'];
-  this.grid[1][1].json.notes.rightHand = ['sixteenth|C3|tie', 'sixteenth|E3|tie', 'sixteenth|G3|tie'];
-  this.grid[1][2].json.notes.rightHand = ['sixteenth|B2|tie', 'sixteenth|D3|tie', 'sixteenth|G3|tie'];
-  this.grid[2][0].json.notes.rightHand = ['sixteenth|B2|tie', 'sixteenth|D3|tie', 'sixteenth|F3|tie'];
-  this.grid[2][1].json.notes.rightHand = ['sixteenth|C3|tie', 'sixteenth|F3|tie', 'sixteenth|A3|tie'];
-  this.grid[2][2].json.notes.rightHand = ['sixteenth|B2|tie', 'sixteenth|D3|tie', 'sixteenth|F3|tie'];
+  this.grid[0][0].json.notes.rightHand = ['tripletEighth|F4|tie', 'tripletEighth|A4|tie', 'tripletEighth|C4|tie', 'tripletEighth|A3|tie', 'tripletEighth|G3|tie', 'tripletEighth|F3|tie', 'tripletEighth|A3|tie', 'tripletEighth|rest|tie',
+  'tripletEighth|D3|tie', 'tripletEighth|D3|tie', 'tripletEighth|F3|tie', 'tripletEighth|D3|tie', 'tripletEighth|B2|tie', 'tripletEighth|B2|tie', 'tripletEighth|F3|tie', 'sixteenth|rest|tie'];
+  this.grid[0][1].json.notes.rightHand = ['tripletEighth|B2|tie', 'tripletEighth|D3|tie', 'tripletEighth|B3|tie', 'tripletEighth|G3|tie', 'tripletEighth|D4|tie', 'tripletEighth|B3|tie', 'tripletEighth|G3|tie', 'tripletEighth|rest|tie',
+  'tripletEighth|B3|tie', 'tripletEighth|B3|tie', 'tripletEighth|D3|tie', 'tripletEighth|B3|tie', 'tripletEighth|G2|tie', 'tripletEighth|G2|tie', 'tripletEighth|D3|tie', 'sixteenth|rest|tie'];
+  this.grid[0][2].json.notes.rightHand = ['tripletEighth|A2|tie', 'tripletEighth|D3|tie', 'tripletEighth|A3|tie', 'tripletEighth|F3|tie', 'tripletEighth|D4|tie', 'tripletEighth|A3|tie', 'tripletEighth|F3|tie', 'tripletEighth|rest|tie',
+  'tripletEighth|B2|tie', 'tripletEighth|D3|tie', 'tripletEighth|E3|tie', 'tripletEighth|A3|tie', 'tripletEighth|G3|tie', 'tripletEighth|F3|tie', 'tripletEighth|B3|tie', 'sixteenth|rest|tie'];
+  this.grid[1][0].json.notes.rightHand = ['tripletEighth|F3|tie', 'tripletEighth|A3|tie', 'tripletEighth|F4|tie', 'tripletEighth|C4|tie', 'tripletEighth|A4|tie', 'tripletEighth|F4|tie', 'tripletEighth|C4|tie', 'tripletEighth|rest|tie',
+  'tripletEighth|A3|tie', 'tripletEighth|A3|tie', 'tripletEighth|C4|tie', 'tripletEighth|A3|tie', 'tripletEighth|F3|tie', 'tripletEighth|F3|tie', 'tripletEighth|C4|tie', 'sixteenth|rest|tie'];
+  this.grid[1][1].json.notes.rightHand = ['tripletEighth|C3|tie', 'tripletEighth|E3|tie', 'tripletEighth|C4|tie', 'tripletEighth|G3|tie', 'tripletEighth|E4|tie', 'tripletEighth|C4|tie', 'tripletEighth|G3|tie', 'tripletEighth|rest|tie',
+  'tripletEighth|E3|tie', 'tripletEighth|E3|tie', 'tripletEighth|G3|tie', 'tripletEighth|E3|tie', 'tripletEighth|C3|tie', 'tripletEighth|C3|tie', 'tripletEighth|G3|tie', 'sixteenth|rest|tie'];
+  this.grid[1][2].json.notes.rightHand = ['tripletEighth|G2|tie', 'tripletEighth|D3|tie', 'tripletEighth|G3|tie', 'tripletEighth|F3|tie', 'tripletEighth|D4|tie', 'tripletEighth|G3|tie', 'tripletEighth|F3|tie', 'tripletEighth|rest|tie',
+  'tripletEighth|D3|tie', 'tripletEighth|D3|tie', 'tripletEighth|F3|tie', 'tripletEighth|D3|tie', 'tripletEighth|B2|tie', 'tripletEighth|B2|tie', 'tripletEighth|F3|tie', 'sixteenth|rest|tie'];
+  this.grid[2][0].json.notes.rightHand = ['tripletEighth|F3|tie', 'tripletEighth|G3|tie', 'tripletEighth|B3|tie', 'tripletEighth|G4|tie', 'tripletEighth|D4|tie', 'tripletEighth|B3|tie', 'tripletEighth|G3|tie', 'tripletEighth|rest|tie',
+  'tripletEighth|G3|tie', 'tripletEighth|B2|tie', 'tripletEighth|B3|tie', 'tripletEighth|D3|tie', 'tripletEighth|F3|tie', 'tripletEighth|G3|tie', 'tripletEighth|G2|tie', 'sixteenth|rest|tie'];
+  this.grid[2][1].json.notes.rightHand = ['tripletEighth|C3|tie', 'tripletEighth|F3|tie', 'tripletEighth|C4|tie', 'tripletEighth|A3|tie', 'tripletEighth|G3|tie', 'tripletEighth|A3|tie', 'tripletEighth|F4|tie', 'tripletEighth|rest|tie',
+  'tripletEighth|F3|tie', 'tripletEighth|F3|tie', 'tripletEighth|A3|tie', 'tripletEighth|F3|tie', 'tripletEighth|D3|tie', 'tripletEighth|B2|tie', 'tripletEighth|F3|tie', 'sixteenth|rest|tie'];
+  this.grid[2][2].json.notes.rightHand = ['tripletEighth|A2|tie', 'tripletEighth|C3|tie', 'tripletEighth|A3|tie', 'tripletEighth|E3|tie', 'tripletEighth|F3|tie', 'tripletEighth|E3|tie', 'tripletEighth|D3|tie', 'tripletEighth|rest|tie',
+  'tripletEighth|B2|tie', 'tripletEighth|D3|tie', 'tripletEighth|E3|tie', 'tripletEighth|A3|tie', 'tripletEighth|G3|tie', 'tripletEighth|E3|tie', 'tripletEighth|D4|tie', 'sixteenth|rest|tie'];
 }
 
 System.prototype.loadSounds = function() {
@@ -149,24 +158,20 @@ var updateDomGrid = function(coords) {
 var highlight = function(system){
   var coords = system.getCoords();
   var color = system.grid[coords[0]][coords[1]].color;
+
   $("body, .circle-boy").css({
-    "background-color": color,
-    transition: "background-color .4s ease-in-out"
+    // "background-color": color,
+    // transition: "background-color .4s ease-in-out"
   })
   $(`#s${coords[0]}${coords[1]} .circle-boy`).css({
-    "background-color": `${system.grid[1][1].color}`,
+    // "background-color": `${system.grid[coords[0]][coords[1]].color}`,
     width: "100%",
     height: "100%",
-    "box-shadow": `inset 5px 5px 20px -3px black`,
-    transition: "box-shadow .2s ease-in-out",
-    "margin" : 0,
+    "margin" : 0
   });
 }
-
-var clearInstructions = function(){
-  $("#instructions").hide();
-  return false;
-}
+// "box-shadow": `inset 5px 5px 20px -3px black`,
+// transition: "box-shadow .2s ease-in-out",
 
 var resetHighlight = function(system){
   var coords = system.getCoords();
@@ -174,7 +179,7 @@ var resetHighlight = function(system){
     width: "60%",
     height: "60%",
     "margin" : "20%",
-    "box-shadow": "inset 0 0 0 0"
+    // "box-shadow": "inset 0 0 0 0"
   });
   if(coords[0] === 1 && coords[1] === 1) {
     $(`#s11 .circle-boy`).css({
@@ -183,6 +188,11 @@ var resetHighlight = function(system){
       "margin" : "0%"
     });
   }
+}
+
+var clearInstructions = function(){
+  $("#instructions").hide();
+  return false;
 }
 
 $(document).ready(function() {
@@ -207,6 +217,8 @@ $(document).ready(function() {
       newSystem.reinitializeConductor();
       newSystem.loadSounds();
       newSystem.startSound();
+      newSystem.conductor.setMasterVolume(10);
+
     }
   });
 
@@ -223,6 +235,7 @@ $(document).ready(function() {
       newSystem.reinitializeConductor();
       newSystem.loadSounds();
       newSystem.startSound();
+      newSystem.conductor.setMasterVolume(10);
     }
   });
 });

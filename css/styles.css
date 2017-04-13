@@ -1,5 +1,5 @@
 body {
-  background-color: rgb(254,200,99);
+  background-color: white;
 }
 .container {
   text-align: center;
@@ -27,6 +27,7 @@ body {
   height: 60%;
   margin: 20%;
   border-radius: 50%;
+  box-shadow: 5px 5px 20px -3px grey;
 }
 
 #s00 .circle-boy{background-color: rgb(234,120,98);}#s01 .circle-boy{background-color: rgb(254,240,145);}#s02 .circle-boy{background-color: rgb(53,209,133);}
@@ -36,8 +37,9 @@ body {
 #instructions h1{
   position: absolute;
   top: 0;
-  left: 0;
-  font-size: 32vw;
-  color: white;
-  margin-top: 30px;
+  left: 4vw;
+  font-size: 7vw;
+  color: gray;
+  margin-top: 18px;
+  width: 32vw;
 }
