@@ -25,25 +25,26 @@ function System() {
   this.keys = [];
 }
 
-System.prototype.initializeConductor = function() {
-  this.conductor = new BandJS();
+System.prototype.initialize = function() {
+  this.generateDataGrid();
+  this.initializeConductor();
+  this.loadSounds();
 }
 
-System.prototype.reinitializeConductor = function() {
-  this.conductor.audioContext.close();
-  this.conductor.destroy();
-}
+System.prototype.generateDataGrid = function(){
+  for (var i = 0; i < this.gridSize; i++) {
+    this.grid.push([]);
+  }
 
-System.prototype.staticJSON = function() {
-  this.grid[0][0] = new Data("rgb(234,120,98)");
-  this.grid[0][1] = new Data(" rgb(254,240,145) ");
-  this.grid[0][2] = new Data("rgb(53,209,133)");
-  this.grid[1][0] = new Data("rgb(246,86,71)");
-  this.grid[1][1] = new Data("rgba(240,240,240,1)");
-  this.grid[1][2] = new Data("rgb(86,185,199)");
-  this.grid[2][0] = new Data("rgb(214,105,137)");
-  this.grid[2][1] = new Data("rgb(105,96,160)");
-  this.grid[2][2] = new Data("rgb(83,129,217)");
+  this.grid[0].push(new Data("rgb(234,120,98)"));
+  this.grid[0].push(new Data(" rgb(254,240,145) "));
+  this.grid[0].push(new Data("rgb(53,209,133)"));
+  this.grid[1].push(new Data("rgb(246,86,71)"));
+  this.grid[1].push(new Data("rgb(246,246,246)"));
+  this.grid[1].push(new Data("rgb(86,185,199)"));
+  this.grid[2].push(new Data("rgb(214,105,137)"));
+  this.grid[2].push(new Data("rgb(105,96,160)"));
+  this.grid[2].push(new Data("rgb(83,129,217)"));
 
   this.grid[0][0].json.notes.rightHand = ['tripletEighth|F4|tie', 'tripletEighth|A4|tie', 'tripletEighth|C4|tie', 'tripletEighth|A3|tie', 'tripletEighth|G3|tie', 'tripletEighth|F3|tie', 'tripletEighth|A3|tie', 'tripletEighth|rest|tie',
   'tripletEighth|D3|tie', 'tripletEighth|D3|tie', 'tripletEighth|F3|tie', 'tripletEighth|D3|tie', 'tripletEighth|B2|tie', 'tripletEighth|B2|tie', 'tripletEighth|F3|tie', 'sixteenth|rest|tie'];
@@ -65,6 +66,22 @@ System.prototype.staticJSON = function() {
   'tripletEighth|B2|tie', 'tripletEighth|D3|tie', 'tripletEighth|E3|tie', 'tripletEighth|A3|tie', 'tripletEighth|G3|tie', 'tripletEighth|E3|tie', 'tripletEighth|D4|tie', 'sixteenth|rest|tie'];
 }
 
+System.prototype.initializeConductor = function() {
+  this.conductor = new BandJS();
+}
+
+System.prototype.updateSound = function(){
+  this.stopSound();
+  this.reinitializeConductor();
+  this.loadSounds();
+  this.startSound();
+}
+
+System.prototype.reinitializeConductor = function() {
+  this.conductor.audioContext.close();
+  this.conductor.destroy();
+}
+
 System.prototype.loadSounds = function() {
   this.player = this.conductor.load(this.grid[this.coords[0]][this.coords[1]].json);
 }
@@ -78,11 +95,36 @@ System.prototype.stopSound = function() {
   this.player.stop(true);
 }
 
+System.prototype.update = function(keyCode, eventType) {
+  if(eventType === "keydown"){
+    this.addKeys(keyCode)
+  } else if(eventType === "keyup") {
+    this.removeKeys(keyCode)
+  }
+  this.updateCoords();
+  this.updateSound();
+}
+System.prototype.addKeys = function(key){
+  this.keys.push(key);
+  if(this.keys.length > 2){
+    this.keys.shift();
+  }
+}
+
+System.prototype.removeKeys = function(key){
+  if(this.keys.indexOf(key) === 0){
+    this.keys.shift();
+  } else {
+    this.keys.pop();
+  }
+}
+
 System.prototype.getCoords = function(){
   return this.coords;
 }
 
 System.prototype.updateCoords = function(){
+  //left: 37 right: 39 up: 38 down: 40
   if(this.keys.includes(37) && this.keys.includes(38)){
     this.coords = [0,0]
   } else if(this.keys.includes(38) && this.keys.includes(39)) {
@@ -104,36 +146,6 @@ System.prototype.updateCoords = function(){
   }
 }
 
-System.prototype.generateArray = function() {
-  for (var i = 0; i < this.gridSize; i++) {
-    this.grid.push([]);
-    for (var n = 0; n < this.gridSize; n++) {
-      this.grid[i].push(`-`);
-    }
-  }
-}
-
-System.prototype.addKeys = function(key){
-  if(!this.keys.includes(key)){
-    if(this.keys.length < 2){
-      this.keys.push(key);
-    } else {
-      this.keys.shift();
-      this.keys.push(key);
-    }
-  }
-}
-
-System.prototype.removeKeys = function(key){
-  var toRemove = 0;
-  if(this.keys.indexOf(key) === 0){
-    toRemove = this.keys.shift();
-  } else {
-    toRemove = this.keys.pop();
-  }
-  return toRemove;
-}
-
 //front-end
 var generateDomGrid = function(){
   for (var i = 0; i < 3; i++){
@@ -142,100 +154,57 @@ var generateDomGrid = function(){
         $(`#row-${i}`).append(`<div class="grid-space" id="s${n}${i}"><div class="circle-boy"></div></div>`);
     }
   }
+  $(".container").append(`<div id="instructions"><h1>arrow keys</h1><h1>kick it</h1></div>`);
 }
 
-var updateDomGrid = function(coords) {
-  for (var i = 0; i < 3; i++) {
-    for (var n = 0; n < 3; n++) {
-      if ($(`#s${i}${n}`).hasClass("active")) {
-        $(`#s${i}${n}`).removeClass("active")
-      }
-    }
-  }
-  $(`#s${coords[0]}${coords[1]}`).addClass("active");
-}
-
-var highlight = function(system){
-  var coords = system.getCoords();
-  var color = system.grid[coords[0]][coords[1]].color;
-
-  $("body, .circle-boy").css({
-    // "background-color": color,
-    // transition: "background-color .4s ease-in-out"
-  })
-  $(`#s${coords[0]}${coords[1]} .circle-boy`).css({
-    // "background-color": `${system.grid[coords[0]][coords[1]].color}`,
-    width: "100%",
-    height: "100%",
-    "margin" : 0
-  });
-}
-// "box-shadow": `inset 5px 5px 20px -3px black`,
-// transition: "box-shadow .2s ease-in-out",
-
-var resetHighlight = function(system){
+var updateHighlight = function(system){
   var coords = system.getCoords();
   $(`.circle-boy`).css({
     width: "60%",
     height: "60%",
     "margin" : "20%",
-    // "box-shadow": "inset 0 0 0 0"
+    "box-shadow": "0 0 0 0"
   });
-  if(coords[0] === 1 && coords[1] === 1) {
-    $(`#s11 .circle-boy`).css({
-      width: "100%",
-      height: "100%",
-      "margin" : "0%"
-    });
-  }
+  $(`#s${coords[0]}${coords[1]} .circle-boy`).css({
+    width: "90%",
+    height: "90%",
+    "box-shadow": "5px 5px 20px -3px grey",
+    transition: "box-shadow .2s ease-in-out",
+    "margin" : "5%"
+  });
 }
 
-var clearInstructions = function(){
-  $("#instructions").hide();
+var clearInitial = function(){
+  $("#instructions h1").css({
+    "text-shadow": "rgb(246,246,246) 0 0 0",
+    transition: "text-shadow .3s ease-in-out",
+  });
+  $(".circle-boy").css({
+    "box-shadow": "0 0 0 0",
+  });
   return false;
 }
 
 $(document).ready(function() {
   var newSystem = new System();
-  var instructions = true;
-  newSystem.generateArray();
-  newSystem.initializeConductor();
-  newSystem.staticJSON();
-  newSystem.loadSounds();
+  var initial = true;
+  newSystem.initialize();
   generateDomGrid();
 
   $(document).keydown(function(event) {
-    if(instructions){instructions = clearInstructions(instructions);}
+    if(initial){initial = clearInitial();}
     var keyCode = event.keyCode;
     if(!newSystem.keys.includes(keyCode)){
-      //left: 37 right: 39 up: 38 down: 40
-      newSystem.addKeys(keyCode);
-      newSystem.updateCoords();
-      resetHighlight(newSystem);
-      highlight(newSystem);
-      newSystem.stopSound();
-      newSystem.reinitializeConductor();
-      newSystem.loadSounds();
-      newSystem.startSound();
-      newSystem.conductor.setMasterVolume(10);
-
+      newSystem.update(keyCode, event.type);
+      updateHighlight(newSystem);
     }
   });
 
   $(document).keyup(function(event){
     var keyCode = event.keyCode;
-    var toRemove = 0;
-    //left: 37 right: 39 up: 38 down: 40
     if(newSystem.keys.includes(keyCode)){
-      toRemove = newSystem.removeKeys(keyCode);
-      newSystem.updateCoords();
-      resetHighlight(newSystem);
-      highlight(newSystem);
-      newSystem.stopSound();
-      newSystem.reinitializeConductor();
-      newSystem.loadSounds();
-      newSystem.startSound();
-      newSystem.conductor.setMasterVolume(10);
+      newSystem.update(keyCode, event.type);
+      updateHighlight(newSystem);
     }
   });
 });
