@@ -6,36 +6,43 @@
 
 ## Description
 
+
+
 ## Program Specifications
 
   - User can navigate a rendered grid of squares using the arrow keys.
-  - Whenever the user presses a key a sound is played. That sound is determined by the users position in the grid.
-    - **Example Input:** "arrow-key" , grid position: [0,2]
-    - **Example Output:** noise played: C#
+  - Whenever the user releases a/all keys, they are returned to the center position.
+  - Whenever the user presses a key a rhythm is played. The key of that rhythm is determined by the users position in the grid.
+    - **Example Input:** "left-arrow" , grid position: [0,1]
+    - **Example Output:** key played: C#
+  - If the user presses two keys next to one another, they are positioned in the diagonal space between the two pressed keys.
+  - If the user presses two keys in opposite directions, only the most recent key will be played.
+  - The program will only respond to the arrow keys, no other keys will be registered.
 
 ## Setup/Installation Requirements
 
 Clone repository in a shell using the command:
-`git clone https://github.com/aubreymasten/ping-pong`
+`git clone https://github.com/niklaslong/Electric-Blanket`
 
 **or**
 
 You can access the site using GitHub pages at:
-https://aubreymasten.github.io/ping-pong
+https://niklaslong.github.io/Electric-Blanket
 
 ## Known Bugs
 
-_Due to time constraints the site may not scale perfectly on every device._
+_Whenever the page is reloaded, the program will accept input from any key on the site, and highlight the top left square. Due to time constraints the site may not scale perfectly on every device._
 
 ## Support and contact details
 
-_If you have any questions or find any issues with the site, get in touch. My email is: aubreymasten@gmail.com_
+_This site was a collaborative effort. If you have any questions or find any issues with the site, get in touch. Our email addresses are niklaslong, tannereustice, Katgiff2007@gmail.com, aubreymasten@gmail.com_
 
 ## Technologies Used
 
 * JavaScript
 * JQuery
-* Bootstrap
+* Band.js
+* JSON
 * CSS
 * HTML
 
