@@ -35,7 +35,7 @@ _Whenever the page is reloaded, the program will accept input from any key on th
 
 ## Support and contact details
 
-_This site was a collaborative effort. If you have any questions or find any issues with the site, get in touch. Our email addresses are niklaslong, tannereustice, Katgiff2007@gmail.com, aubreymasten@gmail.com_
+_This site was a collaborative effort. If you have any questions or find any issues with the site, get in touch. Our email addresses are niklaslong, teustice@msn.com, Katgiff2007@gmail.com, aubreymasten@gmail.com_
 
 ## Technologies Used
 
