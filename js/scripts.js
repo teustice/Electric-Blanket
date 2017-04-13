@@ -25,13 +25,24 @@ function System() {
   this.keys = [];
 }
 
-System.prototype.initializeConductor = function() {
-  this.conductor = new BandJS();
+System.prototype.initialize = function() {
+  this.generateArray();
+  this.initializeConductor();
+  this.staticJSON();
+  this.loadSounds();
 }
 
-System.prototype.reinitializeConductor = function() {
-  this.conductor.audioContext.close();
-  this.conductor.destroy();
+System.prototype.generateArray = function() {
+  for (var i = 0; i < this.gridSize; i++) {
+    this.grid.push([]);
+    for (var n = 0; n < this.gridSize; n++) {
+      this.grid[i].push(`-`);
+    }
+  }
+}
+
+System.prototype.initializeConductor = function() {
+  this.conductor = new BandJS();
 }
 
 System.prototype.staticJSON = function() {
@@ -56,6 +67,18 @@ System.prototype.staticJSON = function() {
   this.grid[2][2].json.notes.rightHand = ['sixteenth|B2|tie', 'sixteenth|D3|tie', 'sixteenth|F3|tie'];
 }
 
+System.prototype.updateSound = function(){
+  this.stopSound();
+  this.reinitializeConductor();
+  this.loadSounds();
+  this.startSound();
+}
+
+System.prototype.reinitializeConductor = function() {
+  this.conductor.audioContext.close();
+  this.conductor.destroy();
+}
+
 System.prototype.loadSounds = function() {
   this.player = this.conductor.load(this.grid[this.coords[0]][this.coords[1]].json);
 }
@@ -69,11 +92,36 @@ System.prototype.stopSound = function() {
   this.player.stop(true);
 }
 
+System.prototype.update = function(keyCode, eventType) {
+  if(eventType === "keydown"){
+    this.addKeys(keyCode)
+  } else if(eventType === "keyup") {
+    this.removeKeys(keyCode)
+  }
+  this.updateCoords();
+  this.updateSound();
+}
+System.prototype.addKeys = function(key){
+  this.keys.push(key);
+  if(this.keys.length > 2){
+    this.keys.shift();
+  }
+}
+
+System.prototype.removeKeys = function(key){
+  if(this.keys.indexOf(key) === 0){
+    this.keys.shift();
+  } else {
+    this.keys.pop();
+  }
+}
+
 System.prototype.getCoords = function(){
   return this.coords;
 }
 
 System.prototype.updateCoords = function(){
+  //left: 37 right: 39 up: 38 down: 40
   if(this.keys.includes(37) && this.keys.includes(38)){
     this.coords = [0,0]
   } else if(this.keys.includes(38) && this.keys.includes(39)) {
@@ -95,36 +143,6 @@ System.prototype.updateCoords = function(){
   }
 }
 
-System.prototype.generateArray = function() {
-  for (var i = 0; i < this.gridSize; i++) {
-    this.grid.push([]);
-    for (var n = 0; n < this.gridSize; n++) {
-      this.grid[i].push(`-`);
-    }
-  }
-}
-
-System.prototype.addKeys = function(key){
-  if(!this.keys.includes(key)){
-    if(this.keys.length < 2){
-      this.keys.push(key);
-    } else {
-      this.keys.shift();
-      this.keys.push(key);
-    }
-  }
-}
-
-System.prototype.removeKeys = function(key){
-  var toRemove = 0;
-  if(this.keys.indexOf(key) === 0){
-    toRemove = this.keys.shift();
-  } else {
-    toRemove = this.keys.pop();
-  }
-  return toRemove;
-}
-
 //front-end
 var generateDomGrid = function(){
   for (var i = 0; i < 3; i++){
@@ -133,26 +151,17 @@ var generateDomGrid = function(){
         $(`#row-${i}`).append(`<div class="grid-space" id="s${n}${i}"><div class="circle-boy"></div></div>`);
     }
   }
-  $(".container").append(`<div id="instructions">
-    <h1>arrow keys</h1>
-    <h1>kick it</h1>
-  </div>`);
+  $(".container").append(`<div id="instructions"><h1>arrow keys</h1><h1>kick it</h1></div>`);
 }
 
-var updateDomGrid = function(coords) {
-  for (var i = 0; i < 3; i++) {
-    for (var n = 0; n < 3; n++) {
-      if ($(`#s${i}${n}`).hasClass("active")) {
-        $(`#s${i}${n}`).removeClass("active")
-      }
-    }
-  }
-  $(`#s${coords[0]}${coords[1]}`).addClass("active");
-}
-
-var highlight = function(system){
+var updateHighlight = function(system){
   var coords = system.getCoords();
-  var color = system.grid[coords[0]][coords[1]].color;
+  $(`.circle-boy`).css({
+    width: "60%",
+    height: "60%",
+    "margin" : "20%",
+    "box-shadow": "0 0 0 0"
+  });
   $(`#s${coords[0]}${coords[1]} .circle-boy`).css({
     width: "90%",
     height: "90%",
@@ -162,24 +171,6 @@ var highlight = function(system){
   });
 }
 
-
-var resetHighlight = function(system){
-  var coords = system.getCoords();
-  $(`.circle-boy`).css({
-    width: "60%",
-    height: "60%",
-    "margin" : "20%",
-    "box-shadow": "0 0 0 0"
-  });
-  if(coords[0] === 1 && coords[1] === 1) {
-    $(`#s11 .circle-boy`).css({
-      width: "100%",
-      height: "100%",
-      "margin" : "0%"
-    });
-  }
-}
-
 var clearInitial = function(){
   $("#instructions h1").css({
     "text-shadow": "rgb(246,246,246) 0 0 0",
@@ -187,48 +178,30 @@ var clearInitial = function(){
   });
   $(".circle-boy").css({
     "box-shadow": "0 0 0 0",
-  })
+  });
   return false;
 }
 
 $(document).ready(function() {
   var newSystem = new System();
   var initial = true;
-  newSystem.generateArray();
-  newSystem.initializeConductor();
-  newSystem.staticJSON();
-  newSystem.loadSounds();
+  newSystem.initialize();
   generateDomGrid();
 
   $(document).keydown(function(event) {
     if(initial){initial = clearInitial();}
     var keyCode = event.keyCode;
     if(!newSystem.keys.includes(keyCode)){
-      //left: 37 right: 39 up: 38 down: 40
-      newSystem.addKeys(keyCode);
-      newSystem.updateCoords();
-      resetHighlight(newSystem);
-      highlight(newSystem);
-      newSystem.stopSound();
-      newSystem.reinitializeConductor();
-      newSystem.loadSounds();
-      newSystem.startSound();
+      newSystem.update(keyCode, event.type);
+      updateHighlight(newSystem);
     }
   });
 
   $(document).keyup(function(event){
     var keyCode = event.keyCode;
-    var toRemove = 0;
-    //left: 37 right: 39 up: 38 down: 40
     if(newSystem.keys.includes(keyCode)){
-      toRemove = newSystem.removeKeys(keyCode);
-      newSystem.updateCoords();
-      resetHighlight(newSystem);
-      highlight(newSystem);
-      newSystem.stopSound();
-      newSystem.reinitializeConductor();
-      newSystem.loadSounds();
-      newSystem.startSound();
+      newSystem.update(keyCode, event.type);
+      updateHighlight(newSystem);
     }
   });
 });
