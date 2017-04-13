@@ -1,8 +1,9 @@
 //back-end
-function Data() {
+function Data(color) {
+  this.color = color;
   this.json = {
     timeSignature: [4, 4],
-    tempo: 130,
+    tempo: 100,
     instruments: {
       rightHand: {
         name: 'square',
@@ -27,21 +28,22 @@ function System() {
 System.prototype.initializeConductor = function() {
   this.conductor = new BandJS();
 }
+
 System.prototype.reinitializeConductor = function() {
   this.conductor.audioContext.close();
   this.conductor.destroy();
 }
 
 System.prototype.staticJSON = function() {
-  this.grid[0][0] = new Data();
-  this.grid[0][1] = new Data();
-  this.grid[0][2] = new Data();
-  this.grid[1][0] = new Data();
-  this.grid[1][1] = new Data();
-  this.grid[1][2] = new Data();
-  this.grid[2][0] = new Data();
-  this.grid[2][1] = new Data();
-  this.grid[2][2] = new Data();
+  this.grid[0][0] = new Data("rgb(234,120,98)");
+  this.grid[0][1] = new Data(" rgb(254,240,145) ");
+  this.grid[0][2] = new Data("rgb(53,209,133)");
+  this.grid[1][0] = new Data("rgb(246,86,71)");
+  this.grid[1][1] = new Data("rgba(240,240,240,1)");
+  this.grid[1][2] = new Data("rgb(86,185,199)");
+  this.grid[2][0] = new Data("rgb(214,105,137)");
+  this.grid[2][1] = new Data("rgb(105,96,160)");
+  this.grid[2][2] = new Data("rgb(83,129,217)");
 
   this.grid[0][0].json.notes.rightHand = ['sixteenth|B2|tie', 'sixteenth|D3|tie', 'sixteenth|G3|tie'];
   this.grid[0][1].json.notes.rightHand = ['sixteenth|B2|tie', 'sixteenth|E3|tie', 'sixteenth|G3|tie'];
@@ -146,11 +148,24 @@ var updateDomGrid = function(coords) {
 
 var highlight = function(system){
   var coords = system.getCoords();
+  var color = system.grid[coords[0]][coords[1]].color;
+  $("body, .circle-boy").css({
+    "background-color": color,
+    transition: "background-color .4s ease-in-out"
+  })
   $(`#s${coords[0]}${coords[1]} .circle-boy`).css({
+    "background-color": `${system.grid[1][1].color}`,
     width: "100%",
     height: "100%",
-    "margin" : 0
+    "box-shadow": `inset 5px 5px 20px -3px black`,
+    transition: "box-shadow .2s ease-in-out",
+    "margin" : 0,
   });
+}
+
+var clearInstructions = function(){
+  $("#instructions").hide();
+  return false;
 }
 
 var resetHighlight = function(system){
@@ -158,7 +173,8 @@ var resetHighlight = function(system){
   $(`.circle-boy`).css({
     width: "60%",
     height: "60%",
-    "margin" : "20%"
+    "margin" : "20%",
+    "box-shadow": "inset 0 0 0 0"
   });
   if(coords[0] === 1 && coords[1] === 1) {
     $(`#s11 .circle-boy`).css({
@@ -171,6 +187,7 @@ var resetHighlight = function(system){
 
 $(document).ready(function() {
   var newSystem = new System();
+  var instructions = true;
   newSystem.generateArray();
   newSystem.initializeConductor();
   newSystem.staticJSON();
@@ -178,6 +195,7 @@ $(document).ready(function() {
   generateDomGrid();
 
   $(document).keydown(function(event) {
+    if(instructions){instructions = clearInstructions(instructions);}
     var keyCode = event.keyCode;
     if(!newSystem.keys.includes(keyCode)){
       //left: 37 right: 39 up: 38 down: 40
