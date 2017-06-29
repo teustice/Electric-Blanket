@@ -46,6 +46,13 @@ _This site was a collaborative effort. If you have any questions or find any iss
 * CSS
 * HTML
 
+## Page Views
+
+
+![](https://github.com/teustice/drone-race-management/blob/master/src/assets/img/Screen%20Shot%202017-06-29%20at%201.03.20%20PM.png)
+
+
+
 ### License
 
 MIT License
